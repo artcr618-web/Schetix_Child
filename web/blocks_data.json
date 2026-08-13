@@ -1043,18 +1043,508 @@
     {
       "id": "food",
       "title": "Продукты питания",
-      "hint": "",
+      "hint": "Разбивка по чеку Магнита. Количество — доля ребёнка в семье из 3 человек за месяц. Срок «хватит» и полная таблица — web/продукты.html.",
       "section": "child_buy",
       "items": [
         {
-          "name": "Продукты на ребёнка",
-          "pcs": 1,
-          "note": "",
-          "price": 20000,
+          "name": "Хлеб чёрный Бородинский, нарезка 330 г",
+          "pcs": 2.53,
+          "note": "Магнит, Краснодар, 13.08.2026",
+          "price": 35.99,
           "years": 0,
           "period": "месяц",
           "split": 1,
-          "url": "https://magnit.ru/"
+          "url": "https://magnit.ru/product/1000076773-khleb_borodinskiy_narez_rzhan_0_33kg_fl_p_gukovskaya_m_yu"
+        },
+        {
+          "name": "Батон нарезанный «Летний дар» 350 г",
+          "pcs": 2.53,
+          "note": "аналог батона «Звёздный»",
+          "price": 71.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000027434-baton_letniy_narez_v_s_0_35kg_p_up_khlebozavod_6"
+        },
+        {
+          "name": "Молоко «Домик в деревне» 3,2% 1,4 л",
+          "pcs": 2.53,
+          "note": "вместо «Эго» 3,2%",
+          "price": 169.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/8000026015-domik_v_derevne_moloko_past_3_2_1_4l_pl_bu"
+        },
+        {
+          "name": "Яйца куриные С0, 10 шт",
+          "pcs": 1.69,
+          "note": "",
+          "price": 99.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/2047000014-yaytso_kurinoe_stolovoe_so_10sht"
+        },
+        {
+          "name": "Сыр «Ламбер» 50% 500 г",
+          "pcs": 0.84,
+          "note": "",
+          "price": 624.95,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000502856-lamber_syr_50_poli_up"
+        },
+        {
+          "name": "Сыр плавленый President 45% 400 г",
+          "pcs": 0.72,
+          "note": "",
+          "price": 224,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1891200042-syr_plavlenyy_president_slivochnyy_45_400g"
+        },
+        {
+          "name": "Масло сливочное 82,5% 180 г",
+          "pcs": 0.84,
+          "note": "аналог вологодского / «озёр»",
+          "price": 179.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1821421011-volgodonskoe_maslo_sliv_82_5_180g_fl_p_belyy_medved_18"
+        },
+        {
+          "name": "Творожок «Чудо» 100 г",
+          "pcs": 10.14,
+          "note": "детское",
+          "price": 59.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000047332-desert_chudo_tvorozhnyy_klubnika_i_zemlyanika_4_100g"
+        },
+        {
+          "name": "Сырок глазированный 40 г",
+          "pcs": 10.14,
+          "note": "детское",
+          "price": 33.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000386051-savushkin__syrok_2601_tvorozhnyy_glazirovannyy_s_napolnitelem_moloko_sgushchennoe_varenoe_i_aromatom_"
+        },
+        {
+          "name": "Майонез «Ряба» 67% 330 г",
+          "pcs": 0.48,
+          "note": "",
+          "price": 159.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000556521-ryaba_mayonez_provansal_olivkovyy_67_330g_d_p"
+        },
+        {
+          "name": "Масло «Золотая семечка» 1 л",
+          "pcs": 0.48,
+          "note": "",
+          "price": 144.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/9639630174-maslo_podsolnechnoe_zolotaya_semechka_rafinirovannoe_1l"
+        },
+        {
+          "name": "Какао «Хрутка» 480 г",
+          "pcs": 1.45,
+          "note": "детское",
+          "price": 379.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000470427-khrutka_kakao_nap_rastvor_d_detey_480g"
+        },
+        {
+          "name": "Чай Tess 100 пак.",
+          "pcs": 0.25,
+          "note": "",
+          "price": 256.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000149557-chay_chernyy_tess_pleasure_s_shipovnikom_i_yablokom_100pak"
+        },
+        {
+          "name": "Сахар-песок 1 кг",
+          "pcs": 0.48,
+          "note": "",
+          "price": 78.79,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/3133780401-sakhar_belyy_kristallicheskiy_fas_1kg"
+        },
+        {
+          "name": "Соль «Экстра» 1 кг",
+          "pcs": 0.11,
+          "note": "",
+          "price": 36.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/3367460006-sol_ekstra_pishchevaya_1kg"
+        },
+        {
+          "name": "Сода пищевая 500 г",
+          "pcs": 0.08,
+          "note": "",
+          "price": 44.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/3132360213-soda_pishchevaya_500g"
+        },
+        {
+          "name": "Кетчуп «Махеевъ» 300 г",
+          "pcs": 0.48,
+          "note": "",
+          "price": 82.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000477942-1500065172"
+        },
+        {
+          "name": "Перец чёрный Kotanyi 20 г",
+          "pcs": 0.17,
+          "note": "",
+          "price": 72.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1500000174-kotanyi_chernyy_perets_molotyy_20g_kotani_25"
+        },
+        {
+          "name": "Джем «Махеевъ» клубничный 300 г",
+          "pcs": 0.48,
+          "note": "",
+          "price": 133.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000129613-dzhem_makheev_klubnichnyy_300g"
+        },
+        {
+          "name": "Nutella 350 г",
+          "pcs": 1.45,
+          "note": "детское",
+          "price": 470.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1049990052-pasta_orekhovaya_nutella_350g"
+        },
+        {
+          "name": "Горошек Bonduelle 400 г",
+          "pcs": 0.72,
+          "note": "иногда",
+          "price": 139.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/3060830547-goroshek_zelenyy_bonduelle_400g"
+        },
+        {
+          "name": "Кукуруза Bonduelle 340 г",
+          "pcs": 0.72,
+          "note": "иногда",
+          "price": 149.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000216614-bonduelle_kukuruza_molochnoy_zrelosti_340g_zhestyanaya_banka_s_klyuchom_ooo_kubanskie_konservy_12"
+        },
+        {
+          "name": "Макароны «Шебекинские» 450 г",
+          "pcs": 1.01,
+          "note": "",
+          "price": 64.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/3174070006-makarony_shebekinskie_spagetti_450g"
+        },
+        {
+          "name": "Картофель ~2,5 кг",
+          "pcs": 1.27,
+          "note": "",
+          "price": 198.37,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1445100062-kartofel_fasovannyy"
+        },
+        {
+          "name": "Морковь 700 г",
+          "pcs": 1.01,
+          "note": "",
+          "price": 30.79,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/9072651201-morkov"
+        },
+        {
+          "name": "Лук репчатый 700 г",
+          "pcs": 1.01,
+          "note": "",
+          "price": 58.79,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/9072651204-luk_repchatyy"
+        },
+        {
+          "name": "Капуста ~1,5 кг",
+          "pcs": 1.01,
+          "note": "",
+          "price": 98.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/9072651205-kapusta_belokochannaya_1kg"
+        },
+        {
+          "name": "Черри 250 г",
+          "pcs": 2.03,
+          "note": "",
+          "price": 159.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/9009072607-tomaty_cherri_250g"
+        },
+        {
+          "name": "Огурцы в упаковке 450 г",
+          "pcs": 2.03,
+          "note": "",
+          "price": 109.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000227406-ogurtsy_korotkoplodnye_teplichnye_450g"
+        },
+        {
+          "name": "Бананы 1 кг",
+          "pcs": 2.03,
+          "note": "",
+          "price": 149.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/9072651501-banany"
+        },
+        {
+          "name": "Яблоки 800 г",
+          "pcs": 2.03,
+          "note": "",
+          "price": 111.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/9039215501-yabloki_novyy_urozhay"
+        },
+        {
+          "name": "Лук зелёный 100 г",
+          "pcs": 2.03,
+          "note": "",
+          "price": 79.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/3414500014-luk_zelenyy_1kg_5"
+        },
+        {
+          "name": "Укроп 100 г",
+          "pcs": 2.03,
+          "note": "",
+          "price": 74.89,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/3414500015-ukrop_1kg_5"
+        },
+        {
+          "name": "Филе грудки «Петелинка» 900 г",
+          "pcs": 1.45,
+          "note": "вместо ярославского бройлера",
+          "price": 485.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1921259012-file-grudki-petelinka-bez-kozhi"
+        },
+        {
+          "name": "Пельмени «Sибирская Коллекция» на молоке 700 г",
+          "pcs": 1.27,
+          "note": "",
+          "price": 224.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000373743-sibirskaya_kollektsiya_pelmeni_sochnye_s_farshem_na_moloke_0_7kg_floupak_ooo_shchelkovskiy_mpk_8"
+        },
+        {
+          "name": "Сосиски «Ближние горки» 450 г",
+          "pcs": 1.45,
+          "note": "нет в этой витрине, ориентир",
+          "price": 319.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": ""
+        },
+        {
+          "name": "Крабовые палочки 200 г",
+          "pcs": 0.72,
+          "note": "иногда",
+          "price": 99.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/7505551301-russkoe_more_krabovye_palochki_okhl_200g_v_u_santa_bremor_8"
+        },
+        {
+          "name": "Сырники 220 г",
+          "pcs": 4.35,
+          "note": "готовая еда, иногда",
+          "price": 179.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/8000074445-molochnaya_legenda_syrniki_zharenye_220g_lotok"
+        },
+        {
+          "name": "Сэндвич с курицей 180 г",
+          "pcs": 4.35,
+          "note": "вместо шаурмы, иногда",
+          "price": 159.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000478907-sendvich_s_kuritsey_180g_pl_kom_torosyan"
+        },
+        {
+          "name": "Люля-кебаб с пюре 300 г",
+          "pcs": 4.35,
+          "note": "вместо пюре с котлетой, иногда",
+          "price": 159.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000460365-lyulya_kebab_s_kartofelnym_pyure_0_3kg_kont_safonov"
+        },
+        {
+          "name": "Курица с лапшой 300 г",
+          "pcs": 3.04,
+          "note": "иногда",
+          "price": 169.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000573618-vkusnye_traditsii_kuritsa_s_lapshoy_0_3kg_pl_kon_safonov"
+        },
+        {
+          "name": "Круассаны с шоколадом, 2 шт",
+          "pcs": 7.6,
+          "note": "детское",
+          "price": 51.98,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1391400210-kruassan_s_shokolad_nachinkoy_0_075kg_p_up_gukovskaya_m_yu"
+        },
+        {
+          "name": "Шоколад Milka 90 г",
+          "pcs": 4.35,
+          "note": "детское",
+          "price": 104.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": ""
+        },
+        {
+          "name": "Пломбир в рожке 130 г",
+          "pcs": 4.35,
+          "note": "детское",
+          "price": 149.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000136914-bolshoy_papa_morozhenoe_v_sakharnom_rozhke_plombir_shokoladnyy_s_napolnitelem_myagkiy_shokolad_0_13k"
+        },
+        {
+          "name": "«Добрый» Cola 1,5 л",
+          "pcs": 1.45,
+          "note": "",
+          "price": 149.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000456965-dobryy_napitok_kola_b_a_s_g_pl_b_1_5l_pl_but"
+        },
+        {
+          "name": "Вода «Святой источник» 1,5 л",
+          "pcs": 2.53,
+          "note": "",
+          "price": 64.99,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/2400001913-svyatoy_istochnik_pitev_voda_gaz_1_5l_pl_but_ids_borjomi_6"
+        },
+        {
+          "name": "Груши 700 г",
+          "pcs": 0.72,
+          "note": "иногда",
+          "price": 179.89,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/3414400031-grushi_vilyams_pakkhams"
+        },
+        {
+          "name": "Авокадо ~390 г",
+          "pcs": 0.72,
+          "note": "иногда",
+          "price": 136.49,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000272975-avokado"
+        },
+        {
+          "name": "Шашлык Мираторг ~2,1 кг",
+          "pcs": 0.34,
+          "note": "иногда",
+          "price": 585.87,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": "https://magnit.ru/product/1000240208-miratorg_myasn_pr_shashlyk_tsb_v_marin_okhl_v_v_u_bryansk_br_10_8"
+        },
+        {
+          "name": "Мёд с рук 0,5 л",
+          "pcs": 0.17,
+          "note": "не из Магнита",
+          "price": 500,
+          "years": 0,
+          "period": "месяц",
+          "split": 1,
+          "url": ""
         }
       ],
       "links": true,
