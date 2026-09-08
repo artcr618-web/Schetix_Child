@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Счетикс — продукты Магнит</title>
+<style>
+:root{
+  --ink:#1A1A1A;--ink2:#374151;--ink3:#4B5563;--gr:#6B7280;--gr2:#9CA3AF;
+  --ln:#E5E7EB;--ln2:#F0F2F5;--bg:#F5F6F8;--surf:#FAFBFC;--white:#fff;
+  --g:#21A038;--gd:#158026;--gl:#EAF6EE;--g200:#D8EEDF;--g800:#0B6B22;
+  --a50:#FFFBEF;--a100:#FEF3D6;--a800:#92400E;
+  --b50:#F6FAFE;--b700:#2A6FAB;
+  --r:20px;--sh:0 2px 12px rgba(16,24,40,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'SB Sans Text','Segoe UI',Roboto,Arial,sans-serif;
+  color:var(--ink);background:var(--bg);line-height:1.5;padding:32px 16px 80px;-webkit-font-smoothing:antialiased}
+.wp{max-width:1240px;margin:0 auto}
+a{color:var(--gd);text-decoration:none}
+a:hover{text-decoration:underline}
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;margin:0 0 12px}
+h1{font-size:30px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.sub{color:var(--gr);font-size:15px;max-width:760px;margin:0 0 22px}
+.brand{display:flex;align-items:center;gap:12px;flex:none}
+.brand .bt{font-size:19px;font-weight:700;letter-spacing:.11em;text-transform:lowercase}
+.brand .bd{font-size:9px;color:var(--gr2);display:flex;justify-content:space-between;text-transform:lowercase}
+.brand .bd i{font-style:normal}
+.hero{background:linear-gradient(135deg,var(--g800),var(--g));color:#fff;border-radius:var(--r);
+  padding:28px 24px;margin-bottom:16px;box-shadow:0 4px 20px rgba(33,160,56,.22)}
+.hero .rw{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.hero .k{font-size:13px;opacity:.85}
+.hero .v{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-top:2px}
+.card{background:#fff;border-radius:var(--r);padding:22px 24px;box-shadow:var(--sh);margin-bottom:16px}
+.hint{color:var(--gr);font-size:13.5px;margin-bottom:14px;line-height:1.55}
+.tools{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:end;margin-bottom:14px}
+.qf label{display:block;font-size:12px;color:var(--gr);font-weight:500;margin-bottom:5px}
+.qf input,.qf select{padding:9px 11px;border:1.5px solid var(--ln);border-radius:12px;font:inherit;font-size:14px;outline:none;background:#fff}
+.qf input:focus,.qf select:focus{border-color:var(--g);box-shadow:0 0 0 3px var(--gl)}
+.qf input.num{width:88px;text-align:right}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--ln);background:var(--bg);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;color:var(--ink2)}
+.chip.on{background:var(--gl);border-color:var(--g200);color:var(--gd);font-weight:600}
+.wrap{overflow-x:auto;border:1px solid var(--ln);border-radius:14px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-weight:600;color:var(--gr);font-size:11.5px;padding:9px 8px;border-bottom:1.5px solid var(--ln);
+  background:var(--surf);white-space:nowrap;position:sticky;top:0;z-index:1}
+td{padding:7px 8px;border-bottom:1px solid var(--ln2);font-variant-numeric:tabular-nums;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tr.cat td{background:var(--gl);font-weight:700;font-size:12px;color:var(--g800);padding:8px 10px}
+tr.sometimes{background:var(--a50)}
+tr.off{opacity:.38}
+.num{text-align:right}
+.name{min-width:220px}
+.shop{white-space:nowrap;color:var(--ink2);font-size:12px}
+.name small{display:block;color:var(--gr);font-weight:400;font-size:11px}
+.tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.03em;padding:1px 6px;border-radius:6px;margin-left:6px;vertical-align:middle}
+.tag.an{background:var(--a100);color:var(--a800)}
+.tag.no{background:#FDE8E8;color:#991B1B}
+.tag.sm{background:var(--a100);color:var(--a800)}
+.tag.kd{background:var(--b50);color:var(--b700)}
+select.typ{padding:5px 8px;border:1.5px solid var(--ln);border-radius:8px;font:inherit;font-size:12px;background:#fff;cursor:pointer}
+select.typ.kids{background:var(--b50);border-color:#CFE0F3;color:var(--b700);font-weight:600}
+select.typ.shared{background:var(--gl);border-color:var(--g200);color:var(--g800);font-weight:600}
+input.days,input.qty{width:64px;padding:5px 6px;border:1.5px solid var(--ln);border-radius:8px;font:inherit;font-size:12.5px;text-align:right}
+a.golink{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--gd);background:var(--gl)}
+a.golink:hover{background:var(--g200)}
+.nolink{color:var(--gr2)}
+.itog{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 14px;font-weight:700;
+  font-size:13.5px;background:var(--gl);border:1px solid var(--g200);border-radius:0 0 14px 14px;margin-top:-1px}
+.note{font-size:12.5px;color:var(--ink3);margin-top:12px;line-height:1.6}
+.foot{display:flex;justify-content:center;padding:28px 0 8px;color:var(--gr2);font-size:12px}
+@media(max-width:800px){
+  body{padding:18px 10px 56px}
+  h1{font-size:24px}
+  .hero .rw{grid-template-columns:1fr 1fr}
+  .hero .v{font-size:20px}
+  .card{padding:16px 12px}
+}
+@media print{
+  body{background:#fff;padding:0}
+  .tools,.chip{display:none!important}
+  .card,.hero{box-shadow:none;border:1px solid var(--ln)}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wp">
+  <div class="hdr">
+    <div>
+      <h1>Продукты «Магнит» — закупка на месяц и год</h1>
+    </div>
+    <div class="brand" title="Счетикс">
+      <span>
+        <span class="bt">счетикс</span>
+        <span class="bd"><i>т</i><i>в</i><i>о</i><i>я</i><i>&nbsp;</i><i>ю</i><i>н</i><i>и</i><i>т</i><i>-</i><i>э</i><i>к</i><i>о</i><i>н</i><i>о</i><i>м</i><i>и</i><i>к</i><i>а</i></span>
+      </span>
+    </div>
+  </div>
+  <p class="sub">Цены с <a href="https://magnit.ru/" target="_blank" rel="noopener">magnit.ru</a>, витрина: Иваново, пр-кт Ленина, 100. <b>Дата выгрузки: 13 августа 2026</b>. Срок и интервал можно менять. Если интервал «дней», в месяце 30,4 дня.</p>
+
+  <div class="hero">
+    <div class="rw">
+      <div><div class="k">Семья в месяц</div><div class="v" id="hFamM">—</div></div>
+      <div><div class="k">Общие / мес</div><div class="v" id="hSharedM">—</div></div>
+      <div><div class="k">Детские / мес</div><div class="v" id="hKidsOnlyM">—</div></div>
+      <div><div class="k">Доля ребёнка / мес</div><div class="v" id="hKidM">—</div></div>
+      <div><div class="k">Доля ребёнка / год</div><div class="v" id="hKidY">—</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="hint"><b>Срок</b> — число, <b>интервал</b> — дни или месяц: например 4 и «дней» значит хватает на 4 дня. <b>Детский</b> делится на двоих детей, <b>общий</b> — на троих членов семьи. В таблице — сумма на всю семью; доля одного ребёнка только в плашке сверху.</p>
+    <div class="tools">
+      <div class="qf">
+        <label for="family">Членов семьи</label>
+        <input class="num" id="family" type="number" min="1" step="1" value="3"/>
+      </div>
+      <div class="qf">
+        <label for="kidsn">Детей</label>
+        <input class="num" id="kidsn" type="number" min="1" step="1" value="2"/>
+      </div>
+      <div class="chips" id="filters">
+        <button type="button" class="chip on" data-f="all">Все</button>
+        <button type="button" class="chip" data-f="kids">Детский</button>
+        <button type="button" class="chip" data-f="shared">Общий</button>
+        <button type="button" class="chip" data-f="regular">Каждую закупку</button>
+        <button type="button" class="chip" data-f="sometimes">Иногда</button>
+      </div>
+    </div>
+    <div class="wrap">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Наименование</th>
+            <th>Ссылка</th>
+            <th>Магазин</th>
+            <th>Тип</th>
+            <th>Вес</th>
+            <th class="num">Кол-во</th>
+            <th class="num">Цена, ₽</th>
+            <th class="num">Срок</th>
+            <th>Интервал</th>
+            <th class="num">Всего в месяце</th>
+            <th class="num">Всего в год</th>
+          </tr>
+        </thead>
+        <tbody id="tb"></tbody>
+      </table>
+    </div>
+    <div class="itog">
+      <span>Итого по включённым строкам</span>
+      <span id="itogLine">—</span>
+    </div>
+    <p class="note">
+      Батон «Звёздный» / «Хлебный дом» в этой витрине нет — взят нарезанный «Летний дар».
+      Сосиски «Ближние горки» в витрине нет — ориентир по сети ~320 ₽ / 450 г.
+      Молоко «Эго» и грудка «Ярославский бройлер» — региональные, взяты замены.
+      Шаурма как отдельная позиция не выложена; ближайшее — сэндвич с курицей.
+      Мёд — ваша закупка с рук, 500 ₽ / 0,5 л.
+      Выгрузка 13 августа 2026: Магнит — Иваново, пр-кт Ленина, 100; мясо и рыба — О’КЕЙ, Иваново, ул. Лежневская, 55 (ТРК «Тополь»). В другом городе цены будут другими.
+    </p>
+  </div>
+</div>
+
+<script>
+const DAYS_M = 365 / 12;
+const CATS = [
+  {id:"bread", title:"Хлеб"},
+  {id:"dairy", title:"Молочка, сыры, яйца"},
+  {id:"grocery", title:"Бакалея и соусы"},
+  {id:"veg", title:"Овощи, фрукты, зелень"},
+  {id:"meat", title:"Мясо, колбасы, заморозка"},
+  {id:"kidsready", title:"Готовая еда для детей"},
+  {id:"sweet", title:"Сладости, выпечка, напитки"},
+  {id:"extra", title:"Иногда, не каждую неделю"}
+];
+const ITEMS = [
+  {cat:"bread", name:"Хлеб чёрный Бородинский, целая буханка", pack:"400 г", price:69.99, qty:1, term:7, unit:"дни", analog:true, note:"Без нарезки, обычный пакет. Было 35 ₽ за нарезку 330 г — мало", url:"https://magnit.ru/product/1119990142-khleb_borodinskiy_klassicheskiy_0_4kg_sp_gm?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"bread", name:"Батон нарезной «Летний дар»", pack:"350 г", price:71.99, qty:3, term:7, unit:"дни", analog:true, note:"3 батона в неделю", url:"https://magnit.ru/product/1000027434-baton_letniy_narez_v_s_0_35kg_p_up_khlebozavod_6?shopCode=743349&shopType=1", shop:"Магнит"},
+
+  {cat:"dairy", name:"Молоко «Домик в деревне» 3,2%", pack:"1,4 л", price:169.99, qty:3, term:7, unit:"дни", kids:true, analog:true, note:"3 бутылки в неделю, вместо «Эго»", url:"https://magnit.ru/product/8000026015-domik_v_derevne_moloko_past_3_2_1_4l_pl_bu?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"dairy", name:"Яйца куриные Окское С0", pack:"10 шт", price:139.99, qty:1, term:7, unit:"дни", analog:true, note:"Крупнее дешёвых С0. «Село Зелёное» в Магните этой витрины нет", url:"https://magnit.ru/product/1000247234-yaytso_kurinoe_okskoe_so_belye_10sht?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"dairy", name:"Сыр «Ламбер» 50%", pack:"500 г", price:624.95, qty:1, term:12, unit:"дни", note:"Акция, было 949,95 ₽", url:"https://magnit.ru/product/1000502856-lamber_syr_50_poli_up?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"dairy", name:"Сыр плавленый President сливочный 45%", pack:"400 г", price:239.99, qty:1, term:14, unit:"дни", kids:true, note:"Это 45% жирности, пачка 400 г", url:"https://magnit.ru/product/1891200042-syr_plavlenyy_president_slivochnyy_45_400g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"dairy", name:"Масло сливочное «Экомилк» 82,5%", pack:"450 г", price:399, qty:1, term:1, unit:"месяц", kids:true, analog:true, note:"Большая синяя пачка, О'КЕЙ. Ориентир ~400 ₽", url:"https://www.okeydostavka.ru/msk/maslo-slivochnoe-ekomilk-traditsionnoe-82-5-450g-", shop:"О’КЕЙ"},
+  {cat:"dairy", name:"Творожок «Чудо» клубника-земляника", pack:"100 г", price:59.99, qty:4, term:2, unit:"дни", kids:true, note:"4 штуки от закупки до закупки", url:"https://magnit.ru/product/1000047332-desert_chudo_tvorozhnyy_klubnika_i_zemlyanika_4_100g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"dairy", name:"Сырки глазированные Свитлогорье, пачка", pack:"180 г", price:169.99, qty:1, term:2, unit:"дни", kids:true, analog:true, note:"Набор в пачке, ориентир ~200 ₽. В Магните палочки 180 г — 169,99 ₽", url:"https://magnit.ru/product/1000242396-svitlogore_syrok_tvorozhnyy_v_karamelnoy_glazuri_s_vanilinom_23_180g_floupak_ao_dmitrovskiy_molochny?shopCode=743349&shopType=1", shop:"Магнит"},
+
+  {cat:"grocery", name:"Майонез «Ряба» Провансаль оливковый 67%", pack:"330 г", price:159.99, qty:1, term:7, unit:"дни", url:"https://magnit.ru/product/1000556521-ryaba_mayonez_provansal_olivkovyy_67_330g_d_p?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Масло подсолнечное «Золотая семечка»", pack:"1 л", price:144.99, qty:1, term:21, unit:"дни", url:"https://magnit.ru/product/9639630174-maslo_podsolnechnoe_zolotaya_semechka_rafinirovannoe_1l?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Какао «Хрутка»", pack:"480 г", price:379.99, qty:1, term:14, unit:"дни", kids:true, note:"Ближайшее к 500 г", url:"https://magnit.ru/product/1000470427-khrutka_kakao_nap_rastvor_d_detey_480g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Чай Tess Pleasure", pack:"100 пак.", price:256.99, qty:1, term:1, unit:"месяц", url:"https://magnit.ru/product/1000149557-chay_chernyy_tess_pleasure_s_shipovnikom_i_yablokom_100pak?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Сахар-песок", pack:"1 кг", price:78.79, qty:1, term:21, unit:"дни", url:"https://magnit.ru/product/3133780401-sakhar_belyy_kristallicheskiy_fas_1kg?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Соль «Экстра»", pack:"1 кг", price:36.99, qty:1, term:3, unit:"месяц", url:"https://magnit.ru/product/3367460006-sol_ekstra_pishchevaya_1kg?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Сода пищевая", pack:"500 г", price:44.99, qty:1, term:2, unit:"месяц", note:"Ванночки содовые", url:"https://magnit.ru/product/3132360213-soda_pishchevaya_500g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Кетчуп «Махеевъ» томатный", pack:"300 г", price:82.99, qty:1, term:7, unit:"дни", url:"https://magnit.ru/product/1000477942-1500065172?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Перец чёрный Kotanyi молотый", pack:"20 г", price:72.99, qty:2, term:7, unit:"дни", note:"2 пачки в неделю", url:"https://magnit.ru/product/1500000174-kotanyi_chernyy_perets_molotyy_20g_kotani_25?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Приправа Kotanyi для тосканского салата с томатами", pack:"15 г", price:79.99, qty:2, term:7, unit:"дни", analog:true, note:"2 пачки в неделю. Отдельной «томаты и чеснок» нет", url:"https://magnit.ru/product/1000419898-kotanyi_priprava_d_toskan_salata_s_tomat_15g_pauch?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Джем «Махеевъ» клубничный", pack:"300 г", price:133.99, qty:1, term:7, unit:"дни", kids:true, url:"https://magnit.ru/product/1000129613-dzhem_makheev_klubnichnyy_300g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Nutella", pack:"350 г", price:470.99, qty:1, term:1, unit:"месяц", kids:true, note:"400 г в этой витрине нет, ближайшее 350 г", url:"https://magnit.ru/product/1049990052-pasta_orekhovaya_nutella_350g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Горошек Bonduelle", pack:"400 г", price:139.99, qty:1, term:7, unit:"дни", sometimes:true, url:"https://magnit.ru/product/3060830547-goroshek_zelenyy_bonduelle_400g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Кукуруза Bonduelle молодая", pack:"340 г", price:149.99, qty:1, term:7, unit:"дни", sometimes:true, url:"https://magnit.ru/product/1000216614-bonduelle_kukuruza_molochnoy_zrelosti_340g_zhestyanaya_banka_s_klyuchom_ooo_kubanskie_konservy_12?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Макароны «Шебекинские» спагетти", pack:"450 г", price:64.99, qty:2, term:7, unit:"дни", note:"2 упаковки в неделю", url:"https://magnit.ru/product/3174070006-makarony_shebekinskie_spagetti_450g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Крупа гречневая 1 сорт", pack:"800 г", price:67, qty:2, term:1, unit:"месяц", note:"2 пачки в месяц", url:"https://magnit.ru/product/3152910002-krupa_grechnevaya_1_sort_fasovannaya_800g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Рис пропаренный 1 сорт", pack:"800 г", price:64.99, qty:1, term:1, unit:"месяц", note:"1 пачка в месяц", url:"https://magnit.ru/product/1370400001-ris_proparennyy_1s_800g_6?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"grocery", name:"Горох колотый", pack:"800 г", price:31.99, qty:1, term:1, unit:"месяц", note:"1 пачка в месяц", url:"https://magnit.ru/product/3139480010-krupa_gorokh_fas_800g_6?shopCode=743349&shopType=1", shop:"Магнит"},
+
+  {cat:"veg", name:"Картофель фасованный", pack:"~2,5 кг", price:198.37, qty:1, term:7, unit:"дни", note:"79,99 ₽/кг", url:"https://magnit.ru/product/1445100062-kartofel_fasovannyy?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"veg", name:"Морковь", pack:"700 г", price:30.79, qty:1, term:7, unit:"дни", url:"https://magnit.ru/product/9072651201-morkov?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"veg", name:"Лук репчатый", pack:"700 г", price:58.79, qty:1, term:7, unit:"дни", url:"https://magnit.ru/product/9072651204-luk_repchatyy?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"veg", name:"Капуста белокочанная", pack:"~1,5 кг", price:98.99, qty:1, term:10, unit:"дни", note:"65,99 ₽/кг", url:"https://magnit.ru/product/9072651205-kapusta_belokochannaya_1kg?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"veg", name:"Томаты черри «М Свежесть»", pack:"250 г", price:159.99, qty:2, term:3, unit:"дни", note:"2 упаковки на 3 дня", url:"https://magnit.ru/product/9009072607-tomaty_cherri_250g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"veg", name:"Огурцы короткоплодные, упаковка", pack:"450 г", price:109.99, qty:2, term:3, unit:"дни", analog:true, note:"2 упаковки на 3 дня", url:"https://magnit.ru/product/1000227406-ogurtsy_korotkoplodnye_teplichnye_450g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"veg", name:"Бананы", pack:"1 кг", price:149.99, qty:1, term:3, unit:"дни", url:"https://magnit.ru/product/9072651501-banany?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"veg", name:"Яблоки новый урожай", pack:"800 г", price:111.99, qty:1, term:5, unit:"дни", url:"https://magnit.ru/product/9039215501-yabloki_novyy_urozhay?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"veg", name:"Лук зелёный", pack:"100 г", price:79.99, qty:1, term:5, unit:"дни", url:"https://magnit.ru/product/3414500014-luk_zelenyy_1kg_5?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"veg", name:"Укроп", pack:"100 г", price:74.89, qty:1, term:5, unit:"дни", url:"https://magnit.ru/product/3414500015-ukrop_1kg_5?shopCode=743349&shopType=1", shop:"Магнит"},
+
+  {cat:"meat", name:"Филе грудки «Петелинка»", pack:"~900 г", price:485.99, qty:1, term:4, unit:"дни", analog:true, note:"От закупки до закупки. «Ярославский бройлер» нет", url:"https://magnit.ru/product/1921259012-file-grudki-petelinka-bez-kozhi?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"meat", name:"Пельмени «Sибирская Коллекция» с фаршем на молоке", pack:"700 г", price:224.99, qty:2, term:2, unit:"дни", kids:true, note:"2 упаковки на 2 дня", url:"https://magnit.ru/product/1000373743-sibirskaya_kollektsiya_pelmeni_sochnye_s_farshem_na_moloke_0_7kg_floupak_ooo_shchelkovskiy_mpk_8?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"meat", name:"Сосиски «Ближние горки» сливочные", pack:"450 г", price:319.99, qty:1, term:2, unit:"дни", missing:true, note:"В этой витрине нет, ориентир ~320 ₽", shop:"Магнит"},
+  {cat:"meat", name:"Крабовые палочки «Русское море»", pack:"200 г", price:99.99, qty:1, term:14, unit:"дни", sometimes:true, url:"https://magnit.ru/product/7505551301-russkoe_more_krabovye_palochki_okhl_200g_v_u_santa_bremor_8?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"meat", name:"Телятина вырезка, О’КЕЙ", pack:"1 кг", price:1344, qty:1, term:1, unit:"месяц", kids:true, sometimes:true, analog:true, note:"Свежее мясо, не фарш. 1 кг в месяц. Ориентир — медальоны «Розовая телятина» 350 г за 470,50 ₽", url:"https://www.okeydostavka.ru/msk/medal-ony-iz-teliatiny-dlia-tusheniia-rozovaia-teliatina-", shop:"О’КЕЙ"},
+  {cat:"meat", name:"Свинина на котлеты, О’КЕЙ", pack:"1 кг", price:267.90, qty:2, term:3, unit:"месяц", sometimes:true, analog:true, note:"2 кг раз в 3 месяца, кусок, не фарш. Как покупали раньше", url:"https://www.okeydostavka.ru/spb/miaso-i-ptitsa-69069-20", shop:"О’КЕЙ"},
+  {cat:"meat", name:"Говядина лопатка без кости, О’КЕЙ", pack:"1 кг", price:499.40, qty:1, term:1, unit:"месяц", sometimes:true, analog:true, note:"1 кг в месяц, иногда", url:"https://www.okeydostavka.ru/spb/miaso-ptitsa-kolbasy/miaso-i-ptitsa", shop:"О’КЕЙ"},
+  {cat:"meat", name:"Печень телячья, О’КЕЙ", pack:"1 кг", price:394.90, qty:1, term:2, unit:"месяц", sometimes:true, analog:true, note:"1 кг раз в 2 месяца, общая. В витрине О’КЕЙ — печень говяжья Самсон, телячьей отдельной нет", url:"https://www.okeydostavka.ru/spb/miaso-ptitsa-kolbasy/subprodukty-iz-miasa-i-ptitsy/pechen-goviazh-ia-okhlazhdennaia-samson-kg", shop:"О’КЕЙ"},
+  {cat:"meat", name:"Сёмга стейк замороженный, О’КЕЙ", pack:"1 кг", price:999, qty:1, term:1, unit:"месяц", kids:true, analog:true, note:"Замороженные стейки, не слабосолёная нарезка. Сын любит", url:"https://www.okeydostavka.ru/msk/losos-steik-p-f-okhl-iz-zam-syr-ia-kg", shop:"О’КЕЙ"},
+  {cat:"meat", name:"Морской коктейль Калури, О’КЕЙ", pack:"1 кг", price:349, qty:1, term:3, unit:"месяц", sometimes:true, analog:true, note:"Раз в 3 месяца, 1 кг", url:"https://www.okeydostavka.ru/msk/morskoi-kokteil-kaluri-1kg", shop:"О’КЕЙ"},
+
+  {cat:"kidsready", name:"Сырники жареные", pack:"220 г", price:179.99, qty:2, term:7, unit:"дни", kids:true, sometimes:true, note:"2 шт, двое детей", url:"https://magnit.ru/product/8000074445-molochnaya_legenda_syrniki_zharenye_220g_lotok?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"kidsready", name:"Сэндвич с курицей", pack:"180 г", price:159.99, qty:2, term:7, unit:"дни", kids:true, sometimes:true, analog:true, note:"2 шт вместо шаурмы", url:"https://magnit.ru/product/1000478907-sendvich_s_kuritsey_180g_pl_kom_torosyan?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"kidsready", name:"Люля-кебаб с картофельным пюре", pack:"300 г", price:159.99, qty:2, term:7, unit:"дни", kids:true, sometimes:true, analog:true, note:"2 шт", url:"https://magnit.ru/product/1000460365-lyulya_kebab_s_kartofelnym_pyure_0_3kg_kont_safonov?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"kidsready", name:"Курица с лапшой", pack:"300 г", price:169.99, qty:2, term:7, unit:"дни", kids:true, sometimes:true, analog:true, note:"2 шт", url:"https://magnit.ru/product/1000573618-vkusnye_traditsii_kuritsa_s_lapshoy_0_3kg_pl_kon_safonov?shopCode=743349&shopType=1", shop:"Магнит"},
+
+  {cat:"sweet", name:"Круассаны 7Days мини с какао", pack:"265 г", price:239.99, qty:1, term:2, unit:"дни", kids:true, analog:true, note:"Большая пачка, не штучные 75 г", url:"https://magnit.ru/product/1000196703-mini_kruassany_7_days_s_kremom_kakao_300g?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"sweet", name:"Шоколад Milka молочный", pack:"90 г", price:104.99, qty:1, term:2, unit:"дни", kids:true, url:"https://magnit.ru/product/1000324321-milka_shokolad_molochnyy_s_bananovo_yogurtovoy_nachinkoy_97g_floupak_ooo_mondelis_rus_15?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"sweet", name:"Мороженое пломбир в рожке «Большой папа»", pack:"130 г", price:149.99, qty:2, term:2, unit:"дни", kids:true, note:"По 2 штуки, двое детей", url:"https://magnit.ru/product/1000136914-bolshoy_papa_morozhenoe_v_sakharnom_rozhke_plombir_shokoladnyy_s_napolnitelem_myagkiy_shokolad_0_13k?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"sweet", name:"Напиток «Добрый» Cola", pack:"1,5 л", price:149.99, qty:1, term:7, unit:"дни", url:"https://magnit.ru/product/1000456965-dobryy_napitok_kola_b_a_s_g_pl_b_1_5l_pl_but?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"sweet", name:"Вода «Псыж» минеральная газированная", pack:"1 л", price:69.99, qty:1, term:4, unit:"дни", analog:true, note:"Не «Святой источник». В Магните чаще 1 л, 1,5 л — в Чижике ~64 ₽", url:"https://magnit.ru/product/1000204590-voda_psyzh_mineralnaya_lechebno_stolovaya_gazirovannaya_1l?shopCode=743349&shopType=1", shop:"Магнит"},
+
+  {cat:"extra", name:"Груши Вильямс / Пакхамс", pack:"700 г", price:179.89, qty:1, term:14, unit:"дни", sometimes:true, url:"https://magnit.ru/product/3414400031-grushi_vilyams_pakkhams?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"extra", name:"Авокадо", pack:"~390 г", price:136.49, qty:1, term:14, unit:"дни", sometimes:true, url:"https://magnit.ru/product/1000272975-avokado?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"extra", name:"Шашлык Мираторг из цыплёнка в маринаде", pack:"~2,1 кг", price:585.87, qty:1, term:1, unit:"месяц", sometimes:true, note:"278,99 ₽/кг", url:"https://magnit.ru/product/1000240208-miratorg_myasn_pr_shashlyk_tsb_v_marin_okhl_v_v_u_bryansk_br_10_8?shopCode=743349&shopType=1", shop:"Магнит"},
+  {cat:"extra", name:"Мёд с рук", pack:"0,5 л", price:500, qty:1, term:2, unit:"месяц", sometimes:true, note:"Не из Магнита", shop:"с рук"},
+  {cat:"extra", name:"Оливки", pack:"банка ~300 г", price:159, qty:1, term:1, unit:"месяц", sometimes:true, analog:true, note:"Иногда, раз в месяц", shop:"Магнит"},
+  {cat:"extra", name:"Капуста пекинская (для «Цезаря»)", pack:"~800 г", price:159.99, qty:1, term:14, unit:"дни", sometimes:true, analog:true, note:"Не цветная — пекинская / китайская", url:"https://magnit.ru/product/3412080034-kapusta_pekinskaya?shopCode=743349&shopType=1", shop:"Магнит"}
+];
+
+ITEMS.forEach((r, i) => { r.on = true; r._i = i; if (r.qty == null) r.qty = 1; if (!r.unit) r.unit = "дни"; if (r.term == null) r.term = r.days || 1; });
+
+let filter = "all";
+function money(n){ return Math.round(n || 0).toLocaleString("ru-RU") + " ₽"; }
+function perMonth(r){
+  const qty = Math.max(0, Number(r.qty) || 0);
+  const term = Math.max(0.01, Number(r.term) || 1);
+  if (r.unit === "месяц") return r.price * qty / term;
+  return r.price * qty * (DAYS_M / term);
+}
+function showRow(r){
+  if (filter === "regular") return !r.sometimes;
+  if (filter === "sometimes") return !!r.sometimes;
+  if (filter === "kids") return !!r.kids;
+  if (filter === "shared") return !r.kids;
+  return true;
+}
+function childShare(r, fam, kids){
+  const m = perMonth(r);
+  return r.kids ? m / Math.max(1, kids) : m / Math.max(1, fam);
+}
+function typeSelect(r){
+  const cls = r.kids ? "kids" : "shared";
+  return `<select class="typ ${cls}" data-typ="${r._i}">
+    <option value="shared" ${r.kids ? "" : "selected"}>Общий</option>
+    <option value="kids" ${r.kids ? "selected" : ""}>Детский</option>
+  </select>`;
+}
+function unitSelect(r){
+  return `<select class="typ" data-unit="${r._i}">
+    <option value="дни" ${r.unit === "месяц" ? "" : "selected"}>дней</option>
+    <option value="месяц" ${r.unit === "месяц" ? "selected" : ""}>месяц</option>
+  </select>`;
+}
+function render(){
+  const fam = Math.max(1, Math.round(Number(document.getElementById("family").value) || 3));
+  const kids = Math.max(1, Math.round(Number(document.getElementById("kidsn").value) || 2));
+  const tb = document.getElementById("tb");
+  let html = "";
+  let famM = 0, kidM = 0, sharedM = 0, kidsOnlyM = 0;
+  CATS.forEach(c => {
+    const rows = ITEMS.filter(r => r.cat === c.id && showRow(r));
+    if (!rows.length) return;
+    html += `<tr class="cat"><td colspan="12">${c.title}</td></tr>`;
+    rows.forEach(r => {
+      const m = perMonth(r);
+      const k = childShare(r, fam, kids);
+      if (r.on){
+        famM += m;
+        kidM += k;
+        if (r.kids) kidsOnlyM += m;
+        else sharedM += m;
+      }
+      const tags = [
+        r.sometimes ? `<span class="tag sm">иногда</span>` : "",
+        r.analog ? `<span class="tag an">аналог</span>` : "",
+        r.missing ? `<span class="tag no">нет в витрине</span>` : ""
+      ].join("");
+      const link = r.url
+        ? `<a class="golink" href="${r.url}" target="_blank" rel="noopener" title="Открыть в Магните">↗</a>`
+        : `<span class="nolink">—</span>`;
+      html += `<tr class="${r.sometimes ? "sometimes" : ""} ${r.on ? "" : "off"}" data-i="${r._i}">
+        <td><input type="checkbox" ${r.on ? "checked" : ""} data-on="${r._i}"></td>
+        <td class="name">${r.name}${tags}${r.note ? `<small>${r.note}</small>` : ""}</td>
+        <td>${link}</td>
+        <td class="shop">${r.shop || "Магнит"}</td>
+        <td>${typeSelect(r)}</td>
+        <td>${r.pack}</td>
+        <td class="num"><input class="qty" type="number" min="0" step="1" value="${r.qty}" data-qty="${r._i}"></td>
+        <td class="num">${r.price.toLocaleString("ru-RU", {minimumFractionDigits:2, maximumFractionDigits:2})}</td>
+        <td class="num"><input class="days" type="number" min="1" step="1" value="${r.term}" data-term="${r._i}"></td>
+        <td>${unitSelect(r)}</td>
+        <td class="num">${money(m)}</td>
+        <td class="num">${money(m * 12)}</td>
+      </tr>`;
+    });
+  });
+  tb.innerHTML = html;
+  document.getElementById("hFamM").textContent = money(famM);
+  document.getElementById("hSharedM").textContent = money(sharedM);
+  document.getElementById("hKidsOnlyM").textContent = money(kidsOnlyM);
+  document.getElementById("hKidM").textContent = money(kidM);
+  document.getElementById("hKidY").textContent = money(kidM * 12);
+  document.getElementById("itogLine").textContent =
+    `общие ${money(sharedM)} · детские ${money(kidsOnlyM)} · семья ${money(famM)} / мес · ${money(famM * 12)} / год`;
+}
+document.getElementById("family").addEventListener("input", render);
+document.getElementById("kidsn").addEventListener("input", render);
+document.getElementById("filters").addEventListener("click", e => {
+  const b = e.target.closest("[data-f]");
+  if (!b) return;
+  filter = b.dataset.f;
+  document.querySelectorAll("#filters .chip").forEach(x => x.classList.toggle("on", x === b));
+  render();
+});
+document.getElementById("tb").addEventListener("input", e => {
+  const t = e.target.dataset.term;
+  if (t != null){
+    ITEMS[+t].term = Math.max(1, Number(e.target.value) || 1);
+    render();
+    return;
+  }
+  const q = e.target.dataset.qty;
+  if (q != null){
+    ITEMS[+q].qty = Math.max(0, Number(e.target.value) || 0);
+    render();
+  }
+});
+document.getElementById("tb").addEventListener("change", e => {
+  const on = e.target.dataset.on;
+  if (on != null){
+    ITEMS[+on].on = e.target.checked;
+    render();
+    return;
+  }
+  const typ = e.target.dataset.typ;
+  if (typ != null){
+    ITEMS[+typ].kids = e.target.value === "kids";
+    render();
+    return;
+  }
+  const un = e.target.dataset.unit;
+  if (un != null){
+    ITEMS[+un].unit = e.target.value;
+    render();
+  }
+});
+render();
+</script>
+</body>
+</html>
