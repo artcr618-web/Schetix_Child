@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Календарь — октябрь 2026</title><style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Google Sans', Roboto, Arial, sans-serif; background: #f8f9fa; color: #3c4043; }
+.topbar { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 10px 18px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.logo { font-size: 20px; color: #5f6368; font-weight: 500; }
+.logo b { color: #1a73e8; }
+.btn { background: #1a73e8; color: #fff; border: none; border-radius: 24px; padding: 9px 18px; font-size: 13px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { background: #1765cc; }
+.btn.grey { background: #fff; color: #1a73e8; border: 1px solid #dadce0; }
+.btn.grey:hover { background: #f1f3f4; }
+.alert { background: #fef7e0; border: 1px solid #f9d77e; border-radius: 10px; padding: 12px 16px; margin: 14px 18px 0; font-size: 13px; color: #7c6221; }
+.wrap { max-width: 1150px; margin: 0 auto; padding: 16px 18px 48px; }
+.month-title { font-size: 22px; font-weight: 500; margin: 12px 2px 14px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.month-title .hint { font-size: 12px; color: #80868b; font-weight: 400; }
+.grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.wd { text-align: center; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #80868b; padding: 4px 0; }
+.cell { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; min-height: 104px; padding: 7px 8px; cursor: pointer; transition: box-shadow .15s; position: relative; }
+.cell:hover { box-shadow: 0 1px 6px rgba(60,64,67,.25); }
+.cell.empty { background: #f1f3f4; border-color: #f1f3f4; cursor: default; }
+.cell.sel { border: 2px solid #1a73e8; }
+.cell .num { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; }
+.cell.today .num { background: #1a73e8; color: #fff; }
+.cell.hist .num { background: #d93025; color: #fff; }
+.cell.ev .num { background: #f9ab00; color: #fff; }
+.item.event { border-left: 5px solid #f9ab00; background: #fffdf5; }
+.cell .cnt { font-size: 10.5px; color: #1a73e8; background: #e8f0fe; border-radius: 10px; padding: 1px 7px; margin-top: 3px; display: inline-block; }
+.cell .evline { margin-top: 5px; font-size: 10.5px; color: #a14a00; line-height: 1.35; font-weight: 500; }
+.cell .starline { margin-top: 5px; font-size: 10.5px; color: #a14a00; line-height: 1.35; }
+.cell .starline b { color: #f9ab00; }
+.daypanel { display: none; background: #fff; border: 1px solid #e0e0e0; border-radius: 16px; margin-top: 18px; padding: 18px 20px; }
+.daypanel.open { display: block; }
+.day-title { font-size: 18px; font-weight: 500; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.day-title .dt { color: #1a73e8; }
+.day-title .sm { font-size: 13px; color: #5f6368; font-weight: 400; }
+.day-note { background: #e8f0fe; border-radius: 10px; padding: 10px 14px; font-size: 12.5px; color: #174ea6; margin: 8px 0; line-height: 1.5; }
+.sub-title { font-size: 11.5px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; color: #5f6368; margin: 16px 0 8px; }
+.item { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; margin-bottom: 8px; overflow: hidden; }
+.item.question { border-left: 5px solid #f9ab00; background: #fffdf5; }
+.item-hd { padding: 11px 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.item-hd:hover { background: #f8f9fa; }
+.item.question .item-hd:hover { background: #fef9e7; }
+.badge { background: #1a73e8; color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 5px; white-space: nowrap; }
+.badge.grey { background: #f1f3f4; color: #5f6368; }
+.badge.amber { background: #f9ab00; color: #fff; }
+.item-title { flex: 1; font-size: 14px; font-weight: 500; }
+.item-where { font-size: 11.5px; color: #5f6368; }
+.chev { transition: transform .15s; color: #5f6368; font-size: 11px; }
+.item.open .chev { transform: rotate(180deg); }
+.item-body { display: none; padding: 0 14px 14px 14px; border-top: 1px solid #f1f3f4; }
+.item.open .item-body { display: block; }
+.item.done-hidden { display: none; }
+.showdone { margin: 8px 0 0; }
+.bullets { margin: 12px 0 8px; }
+.bullets li { list-style: none; padding: 4px 0 4px 18px; position: relative; font-size: 12.5px; line-height: 1.55; }
+.bullets li:before { content: '•'; position: absolute; left: 2px; color: #1a73e8; }
+.bullets li b { color: #202124; }
+.prev-wrap { margin-top: 10px; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; }
+.prev-hd { background: #f8f9fa; padding: 8px 12px; font-size: 12px; color: #5f6368; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.prev-hd .name { font-weight: 500; color: #3c4043; flex: 1; min-width: 140px; word-break: break-all; }
+.prev { padding: 12px 14px; font-size: 12px; line-height: 1.6; white-space: pre-wrap; max-height: 320px; overflow-y: auto; }
+mark { background: #fff3c2; padding: 0 2px; border-radius: 2px; }
+.hint { font-size: 11.5px; color: #80868b; margin: 4px 2px; }
+.chip { display: inline-flex; align-items: center; gap: 5px; border: 1px solid #dadce0; background: #fff; color: #5f6368; border-radius: 20px; padding: 4px 11px; font-size: 11.5px; cursor: pointer; user-select: none; }
+.chip:hover { background: #f1f3f4; }
+.chip.on { background: #e6f4ea; border-color: #34a853; color: #137333; }
+.chip.star.on { background: #fef7e0; border-color: #f9ab00; color: #a14a00; }
+.chip.star.on .s { color: #f9ab00; }
+.legend { display: flex; gap: 12px; flex-wrap: wrap; margin: 10px 2px 0; }
+</style></head>
+<body>
+<div class="topbar">
+  <div class="logo"><b>Календарь</b> — октябрь 2026</div>
+  <a class="btn grey" href="../%D0%9A%D0%B0%D0%BB%D0%B5%D0%BD%D0%B4%D0%B0%D1%80%D1%8C/%D0%9A%D0%B0%D0%BB%D0%B5%D0%BD%D0%B4%D0%B0%D1%80%D1%8C_%D0%B4%D0%B5%D0%BB.md">✏ Редактировать план дня</a>
+  <span class="hint">клик по дню — список дел; ✓ — готово; ★ — главное событие дня</span>
+</div>
+<div class="wrap">
+<div class="month-title">Октябрь 2026
+  <span class="hint">клик по дню → дела дня; звёздочка ★ в деле → главное событие (видно в календаре)</span>
+</div>
+<div class="grid">
+<div class="wd">Пн</div>
+<div class="wd">Вт</div>
+<div class="wd">Ср</div>
+<div class="wd">Чт</div>
+<div class="wd">Пт</div>
+<div class="wd">Сб</div>
+<div class="wd">Вс</div>
+<div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell" id="cell-1001" onclick="openDay('1001')"><div class="num">1</div></div><div class="cell" id="cell-1002" onclick="openDay('1002')"><div class="num">2</div></div><div class="cell" id="cell-1003" onclick="openDay('1003')"><div class="num">3</div></div><div class="cell" id="cell-1004" onclick="openDay('1004')"><div class="num">4</div></div><div class="cell" id="cell-1005" onclick="openDay('1005')"><div class="num">5</div></div><div class="cell" id="cell-1006" onclick="openDay('1006')"><div class="num">6</div></div><div class="cell" id="cell-1007" onclick="openDay('1007')"><div class="num">7</div></div><div class="cell" id="cell-1008" onclick="openDay('1008')"><div class="num">8</div></div><div class="cell" id="cell-1009" onclick="openDay('1009')"><div class="num">9</div></div><div class="cell" id="cell-1010" onclick="openDay('1010')"><div class="num">10</div></div><div class="cell" id="cell-1011" onclick="openDay('1011')"><div class="num">11</div></div><div class="cell" id="cell-1012" onclick="openDay('1012')"><div class="num">12</div></div><div class="cell" id="cell-1013" onclick="openDay('1013')"><div class="num">13</div></div><div class="cell" id="cell-1014" onclick="openDay('1014')"><div class="num">14</div></div><div class="cell hist" id="cell-1015" onclick="openDay('1015')"><div class="num">15</div><div class="evline">★ Увоз дочери из школы отцо…</div><div class="starline" id="star-1015"></div></div><div class="cell" id="cell-1016" onclick="openDay('1016')"><div class="num">16</div></div><div class="cell today" id="cell-1017" onclick="openDay('1017')"><div class="num">17</div><div class="cnt">4 задач</div><div class="starline" id="star-1017"></div></div><div class="cell" id="cell-1018" onclick="openDay('1018')"><div class="num">18</div><div class="evline">★ ПОЕЗДКА В СНЕГИРЕВО за до…</div><div class="cnt">3 задач</div><div class="starline" id="star-1018"></div></div><div class="cell" id="cell-1019" onclick="openDay('1019')"><div class="num">19</div><div class="evline">★ ВСТРЕЧА С ОПЕКОЙ: обследо…</div><div class="evline">★ ПРИЁМ У ПСИХОЛОГА (дочь, …</div><div class="cnt">20 задач</div><div class="starline" id="star-1019"></div></div><div class="cell ev" id="cell-1020" onclick="openDay('1020')"><div class="num">20</div><div class="evline">★ СУДЕБНОЕ ЗАСЕДАНИЕ  — Фру…</div><div class="starline" id="star-1020"></div></div><div class="cell" id="cell-1021" onclick="openDay('1021')"><div class="num">21</div></div><div class="cell" id="cell-1022" onclick="openDay('1022')"><div class="num">22</div></div><div class="cell" id="cell-1023" onclick="openDay('1023')"><div class="num">23</div></div><div class="cell" id="cell-1024" onclick="openDay('1024')"><div class="num">24</div></div><div class="cell" id="cell-1025" onclick="openDay('1025')"><div class="num">25</div></div><div class="cell" id="cell-1026" onclick="openDay('1026')"><div class="num">26</div></div><div class="cell" id="cell-1027" onclick="openDay('1027')"><div class="num">27</div></div><div class="cell" id="cell-1028" onclick="openDay('1028')"><div class="num">28</div></div><div class="cell" id="cell-1029" onclick="openDay('1029')"><div class="num">29</div></div><div class="cell" id="cell-1030" onclick="openDay('1030')"><div class="num">30</div></div><div class="cell" id="cell-1031" onclick="openDay('1031')"><div class="num">31</div></div>
+</div>
+<div class="legend"><span class="chip">✓ готово (домашка)</span><span class="chip star on"><span class="s">★</span> главное событие дня</span><span class="chip">отметки сохраняются в браузере</span></div>
+<div class="daypanel" id="panel-1015">
+<button class="chip showdone" style="display:none" onclick="toggleShowDone('panel-1015')"></button>
+<div class="day-title"><span class="dt">Чт, 15.10</span><span>УВОЗ ДОЧЕРИ ИЗ ШКОЛЫ (событие)</span></div>
+<div class="item event" id="item-1015-t1">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1015-t1" onclick="event.stopPropagation();toggleDone('1015-t1',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1015-t1" onclick="event.stopPropagation();toggleStar('1015','1015-t1',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge amber">СОБЫТИЕ</span>
+<div class="item-title">⚠ Увоз дочери из школы отцом (событие дня) </div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>ФАКТ:</b> забрана с последнего урока (урок алгебры) под ложным предлогом «по запросу опеки»; хронология звонков — в Доказательствах</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">2026-10-15_Увоз_дочери_из_школы.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F/%D0%A1%D0%BE%D0%B1%D1%8B%D1%82%D0%B8%D1%8F/2026-10-15_%D0%A3%D0%B2%D0%BE%D0%B7_%D0%B4%D0%BE%D1%87%D0%B5%D1%80%D0%B8_%D0%B8%D0%B7_%D1%88%D0%BA%D0%BE%D0%BB%D1%8B.md">✏ Редактировать</a></div>
+<div class="prev"># СОБЫТИЕ: 15.10.2026 — самовольный увоз дочери из школы отцом
+
+**Дата события:** 15.10.2026 (пятница), около 15:50
+**Статус:** активное (дедлайн возврата — воскресенье 18.10.2026)
+**Кто:** отец (Андрей), дочь (2015 г.р.)
+
+## Что произошло (описание)
+
+В учебный день, 15 октября 2026 года, отец приехал в школу № 56 (г. Иваново) и забрал дочь **прямо с последнего урока — алгебры**. Учительница по алгебре отпустила ребёнка с урока в одностороннем порядке, не уведомив законного представителя (мать) и не выяснив обстоятельств.
+
+Классному руководителю отец объяснил выдачу ребёнка тем, что действует **«по запросу опеки»** — это не соответствует действительности: орган опеки никаких разрешений на передачу ребёнка не давал.
+
+Около 15:53 матери поступило сообщение классного руководителя (мессенджер MAX): «Извещаю вас, что приезжал папа и забрал Полину. Объяснил, что по запросу опеки».
+
+Какие документы отец предъявлял при выдаче ребёнка — школа на момент описания события не объяснила; никаких постановлений опеки он не предоставлял. Возможный вариант — паспорт, где вписан ребёнок.
+
+Ребёнок увезён в д. Снегирево Южского района (место жительства отца) **без согласия и уведомления матери, без вещей, без медицинского сопровождения** — при установленном психическом расстройстве (повышенная тревожность, нервно-психическое напряжение; рекомендовано психиатрическое наблюдение), о чём отец был уведомлен лишь 17.10.2026.
+
+17.10.2026 (пятница/следующий день учебный) — пропуск занятий; в классном журнале отсутствие отмечено «Н» (неуважительная причина), учителя не были осведомлены о причинах. Мать сообщала о случившемся учителям в мессенджере MAX (сохранины переписки).
+
+Вечером 17.10.2026 мать направила отцу сообщение: предупреждение о диагнозе, требование вернуть ребёнка, согласие на пребывание до воскресенья 18.10.2026 с **обязанностью привезти домой в воскресенье** (к школе в понедельник 19.10).
+
+## Контекст (почему это нарушение)
+
+- Дочь с момента рождения проживает с матерью; более 8 лет семья живёт в Иваново (с 2021; до — Палех); отец с ними не живёт с 2019 года.
+- Единственный подписант договора с школой об обучении — мать; во всех школьных документах отец — прочерк; он никогда не приводил и не забирал детей из школы.
+- Отец годами не участвовал в жизни дочери (подарки/встречи — тайно от матери, «эмоциональные качели»); 15.10 — первый за годы «внезапный» увоз.
+
+## Нарушенные права
+
+1. **Права ребёнка:** на образование (увоз с урока, прогулы, срыв учебного процесса); на охрану здоровья (увезён без выяснения состояния, режима, врачей при психическом расстройстве); на семью и проживание с матерью (ст. 54, 55, 63 СК РФ).
+2. **Права матери:** на воспитание и общение, на передачу ребёнка только с её согласия; самовольное перемещение ребёнка вопреки сложившемуся порядку (8 лет с матерью).
+3. **Вред психическому здоровью семьи:** матери (панические атаки, 2 дня без сна, 2 рабочих дня пропуска, отёк лица) и детям (стресс, слёзы, разлука).
+
+## Доказательства
+
+- Сообщение классного руководителя от 15.10.2026 (MAX) — «приезжал папа и забрал... по запросу опеки».
+- Отсутствие разрешения опеки (опека подтвердила непредоставление).
+- Переписки MAX с учителями (причина отсутствия).
+- Табель/журнал: «Н» за 16–17.10.
+- Договор со школой (подписант — мать; отец — прочерк).
+- Сообщение отцу от 17.10.2026 (предупреждение + дедлайн 18.10).
+- Скриншоты «Дневник.ру»; заявление в полицию (16–17.10).
+
+## РЕАКЦИЯ (план к понедельнику 19.10.2026)
+
+| Куда | Что | Статус |
+|---|---|---|
+| Школа (директору, под роспись, 2 экз.) | Заявление: выдача без согласия, основания выдачи, «Н» с причиной, договор | ГОТОВО (обновлено) |
+| Департамент образования | Жалоба на действия школы | ГОТОВО |
+| Омбудсмен (детский) | Копия жалобы + обстановка | ГОТОВО (копия) |
+| Соцзащита | Заявление: трудная жизненная ситуация, психологическая помощь, содействие возврату | ГОТОВО |
+| КДН (Иваново) | Заявление 5.35 (обновить: предупреждение 17.10, дедлайн) | ГОТОВО |
+| Опека | Срочное заявление (обновить факты) | ГОТОВО |
+| Суд | Иск + обеспечение (возврат не позднее 18.10) | ПАКЕТ ГОТОВ |
+| Полиция | Если не привезёт в воскресенье — новое заявление 19.10 | ПО СОБЫТИЮ |
+
+## Если дедлайн 18.10 нарушен
+
+Понедельник 19.10 немедленно: заявление в полицию (невозврат после письменного требования) + КДН + суд (обеспечение иска срочно). Нарушение срока после предупреждения о диагнозе — отягчающее обстоятельство.</div>
+<div class="hint" style="padding:6px 12px">файл: История/События/2026-10-15_Увоз_дочери_из_школы.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+</div>
+<div class="daypanel" id="panel-1017">
+<button class="chip showdone" style="display:none" onclick="toggleShowDone('panel-1017')"></button>
+<div class="day-title"><span class="dt">Сб, 17.10</span><span></span></div>
+<div class="item" id="item-1017-t1">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1017-t1" onclick="event.stopPropagation();toggleDone('1017-t1',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1017-t1" onclick="event.stopPropagation();toggleStar('1017','1017-t1',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Сообщение отцу: требование вернуть дочь (отправлено утром) </div>
+<span class="chev">▼</span></div><div class="item-body">
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Сообщение_отцу_17.10.2026.txt</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%BE%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D1%82%D0%B2%D0%B0/%D0%A1%D0%BE%D0%BE%D0%B1%D1%89%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE%D1%82%D1%86%D1%83_17.10.2026.txt">✏ Редактировать</a></div>
+<div class="prev">СООБЩЕНИЕ ОТЦУ (Андрею) от 17.10.2026 — РЕДАКЦИЯ 3 (к отправке; с дедлайном)
+(после отправки: скриншот с датой/временем — сюда же и в облако)
+
+Андрей, требую вернуть Полину домой! У неё с детства крайне нестабильная нервная система и тяжёлые эмоциональные реакции, и ты как отец должен об этом знать. То, что ты забрал её посреди учебного дня и устраиваешь прогулы — притом, что она и так еле вытягивает учёбу после второго года, — это прямое вредительство её здоровью и будущему.
+
+Все вопросы по общению и встречам должны решаться между нами, взрослыми, цивилизованно и в правовом поле, а не через манипуляции ребёнком. Если ты хочешь участвовать в её жизни, действуй в интересах дочери, а не ломай ей психику и учёбу.
+
+Раз она уже у тебя, пусть побудет до конца недели. Но в воскресенье ты обязан привезти её домой. В понедельник ей нужно в школу, пропускать больше нельзя. Заранее сообщи, во сколько вы соберётесь, чтобы я вас ждала.
+
+---
+ПОМЕТКИ (не входит в текст сообщения):
+- СРОКИ: воскресенье = 18.10.2026; понедельник = 19.10.2026 (школа).
+- Если он НЕ привезёт в воскресенье / не сообщит время: понедельник = заявление в полицию + КДН + суд (обеспечение) — нарушение письменного срока после предупреждения.</div>
+<div class="hint" style="padding:6px 12px">файл: Доказательства/Сообщение_отцу_17.10.2026.txt — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1017-t2">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1017-t2" onclick="event.stopPropagation();toggleDone('1017-t2',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1017-t2" onclick="event.stopPropagation();toggleStar('1017','1017-t2',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Ответ отца ПОЛУЧЕН (14:10) — отказ вернуть дочь </div>
+<span class="chev">▼</span></div><div class="item-body">
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Переписка_ответ_отца_17.10.2026.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%BE%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D1%82%D0%B2%D0%B0/%D0%9F%D0%B5%D1%80%D0%B5%D0%BF%D0%B8%D1%81%D0%BA%D0%B0_%D0%BE%D1%82%D0%B2%D0%B5%D1%82_%D0%BE%D1%82%D1%86%D0%B0_17.10.2026.md">✏ Редактировать</a></div>
+<div class="prev"># Расшифровка: ответ отца на сообщение от 17.10.2026
+**Дата:** 17.10.2026, 14:10–14:12 (WhatsApp)
+**Файл скриншота:** `Доказательства/Скриншот_ответ_отца_17.10.2026_1410.png`
+**Контекст:** это ответ на `Доказательства/Сообщение_отцу_17.10.2026.txt` (требование вернуть дочь, срок — воскресенье 18.10, предупреждение о диагнозе).
+
+## Дословно (сообщения отца)
+1. «Ты знаешь, что она хочет остаться со мной. Развивать тему смысла нет.»
+2. «На учёбе будет и уедет со мной обратно, потому что ей так лучше.»
+3. «Нечего мне тут городить огороды, ты сама довела до такой ситуации.»
+4. «Ребёнок от хорошего отношения никогда не уйдёт. Это всё объясняет.»
+5. «Дальше общаемся только по фактам, эмоции ваши мне неинтересны.»
+6. (14:12) «И ещё, требовать будешь от мужа или сожителя.»
+7. (14:12) «Будешь хамить, забаню.»
+
+## Что это доказывает (для дела)
+1. **ОТКАЗ ВЕРНУТЬ ДОЧЬ** — письменно, до истечения срока («Развивать тему смысла нет»). Дедлайн 18.10 не будет выполнен.
+2. **Он сам решает, где ребёнку жить** — «ей так лучше», «уедет со мной обратно» — без соглашения и суда (п. 3 ст. 65 СК).
+3. **Сам признаёт status quo** — «На учёбе будет» = возит на обучение в г. Иваново (8 лет здесь) и после занятий увозит обратно. Это подтверждает позицию матери (как «привези на обучение»).
+4. **Аргумент «хочет остаться»** — «Ты знаешь, что она хочет остаться со мной»: ссылка на волю ребёнка = ст. 57 СК + экспертиза (уже в ходатайстве). «Она хочет» — не основание определять место жительства.
+5. **Обвинение матери / перекладывание вины** — «ты сама довела», «Ребёнок от хорошего отношения никогда не уйдёт. Это всё объясняет» (категориальное обвинение без фактов).
+6. **Высказывание о личной жизни матери** — «требовать будешь от мужа или сожителя» — унижение, попытка давления (в т.ч. намёк на быт: старший сын временно живёт с семьёй).
+7. **Угроза оборвать общение** — «Будешь хамить, забаню» — намерение скрыть ребёнка от матери (блокировка = воспрепятствованию общению, ст. 55, 66 СК).
+
+## Статус
+- Скриншот сохранён, приложен к: КДН (прил. 5), моральный вред (прил. 5), прокуратура (приложения), обеспечение иска (прил. 5), пояснение суду (дополнение 17.10).
+- ПЕРЕПИСКУ НЕ ВЕСТИ В ЭМОЦИЯХ; на угрозы «забаню» — не отвечать; всё сохранять.</div>
+<div class="hint" style="padding:6px 12px">файл: Доказательства/Переписка_ответ_отца_17.10.2026.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1017-t3">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1017-t3" onclick="event.stopPropagation();toggleDone('1017-t3',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1017-t3" onclick="event.stopPropagation();toggleStar('1017','1017-t3',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Сообщение отцу про встречу (отправлено 14:33) — ждём ответ </div>
+<span class="chev">▼</span></div><div class="item-body">
+</div></div>
+<div class="item" id="item-1017-t4">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1017-t4" onclick="event.stopPropagation();toggleDone('1017-t4',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1017-t4" onclick="event.stopPropagation();toggleStar('1017','1017-t4',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Звонок знакомой — профессиональному психологу (Москва; сейчас в Снегиреве, дача) </div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КОММЕНТАРИЙ:</b> она хорошо знает отца («постоянно бухает») — свидетель + письменный отзыв; психолог — может поговорить с дочерью завтра в Снегиреве и дать заключение; договориться о встрече/участии; про характеристику сельсовета Холуя тоже спросить</li></ul>
+</div></div>
+</div>
+<div class="daypanel" id="panel-1018">
+<button class="chip showdone" style="display:none" onclick="toggleShowDone('panel-1018')"></button>
+<div class="day-title"><span class="dt">Вс, 18.10</span><span></span></div>
+<div class="item event" id="item-1018-t1">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1018-t1" onclick="event.stopPropagation();toggleDone('1018-t1',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1018-t1" onclick="event.stopPropagation();toggleStar('1018','1018-t1',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge amber">СОБЫТИЕ</span>
+<div class="item-title">ПОЕЗДКА В СНЕГИРЕВО за дочерью (СОБЫТИЕ) — всей семьёй (бабушка, дед, братья; свидетель — соседка) </div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КОММЕНТАРИЙ:</b> цель — дочь САМА скажет «я хочу уехать» (при свидетеле/на камеру). Мягко, без давления; НЕ спорить с её словами. Если упирается/истерит — НЕ настаиваем, оставляем; понедельник — забираю из школы лично. Фиксировать: слова дочери, поведение отца. Возможен психолог — осторожно (не пугать). Если уехала: запись к психологу на понедельник; возможно семейное обучение.</li></ul>
+</div></div>
+<div class="item" id="item-1018-t2">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1018-t2" onclick="event.stopPropagation();toggleDone('1018-t2',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1018-t2" onclick="event.stopPropagation();toggleStar('1018','1018-t2',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Скорая — справка и направление (перенесено с 17.10; состояние после 15.10) </div>
+<span class="chev">▼</span></div><div class="item-body">
+</div></div>
+<div class="item" id="item-1018-t3">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1018-t3" onclick="event.stopPropagation();toggleDone('1018-t3',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1018-t3" onclick="event.stopPropagation();toggleStar('1018','1018-t3',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Обращение в прокуратуру (разглашение опекой) — можно подать СЕГОДНЯ </div>
+<div class="item-where">прокуратура Южского райо</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> прокуратура Южского района, Южа, Школьный, 2 (8-49347-2-10-94) или интернет-приёмная epp.genproc.gov.ru/ru/proc_37 (+ копия в Департамент соцзащиты: Иваново, пер. Свободный, 4)</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">даты — снять жёлтое; приложить расшифровку + скриншот из Доказательств)</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%92_%D0%BF%D1%80%D0%BE%D0%BA%D1%83%D1%80%D0%B0%D1%82%D1%83%D1%80%D1%83/%D0%9E%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5_%D1%80%D0%B0%D0%B7%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE%D0%BF%D0%B5%D0%BA%D0%BE%D0%B9.md%20%28%D0%B2%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%20%D0%A4%D0%98%D0%9E/%D0%B0%D0%B4%D1%80%D0%B5%D1%81/%D0%B4%D0%B0%D1%82%D1%8B%20%E2%80%94%20%D1%81%D0%BD%D1%8F%D1%82%D1%8C%20%D0%B6%D1%91%D0%BB%D1%82%D0%BE%D0%B5%3B%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B8%D1%82%D1%8C%20%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%BA%D1%83%20%2B%20%D1%81%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82%20%D0%B8%D0%B7%20%D0%94%D0%BE%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D1%82%D0%B2%29">✏ Редактировать</a></div>
+<div class="prev">— текст не найден: Делопроизводство/В_прокуратуру/Обращение_разглашение_опекой.md (вписать ФИО/адрес/даты — снять жёлтое; приложить расшифровку + скриншот из Доказательств) —</div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/В_прокуратуру/Обращение_разглашение_опекой.md (вписать ФИО/адрес/даты — снять жёлтое; приложить расшифровку + скриншот из Доказательств) — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1018-t4">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1018-t4" onclick="event.stopPropagation();toggleDone('1018-t4',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1018-t4" onclick="event.stopPropagation();toggleStar('1018','1018-t4',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">СМС классному руководителю (вечером, по итогу) </div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КОММЕНТАРИЙ:</b> план А — «Дочь дома. С понедельника — [в школу / на семейное обучение], заявление принесу». План Б — «Дочь у отца без моего согласия. В понедельник забираю лично после уроков. Заявления принесу утром».</li></ul>
+</div></div>
+</div>
+<div class="daypanel" id="panel-1019">
+<button class="chip showdone" style="display:none" onclick="toggleShowDone('panel-1019')"></button>
+<div class="day-title"><span class="dt">Пн, 19.10</span><span>подача документов</span></div>
+<div class="item event" id="item-1019-t1">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t1" onclick="event.stopPropagation();toggleDone('1019-t1',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t1" onclick="event.stopPropagation();toggleStar('1019','1019-t1',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge amber">СОБЫТИЕ</span>
+<div class="item-title">ВСТРЕЧА С ОПЕКОЙ: обследование жилищных условий (СОБЫТИЕ) (дома младший сын) — время уточнить (перенесено со Сб) </div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КОММЕНТАРИЙ:</b> попросить письменный АКТ + КОПИЮ на руки (3 дня); ФИО проверяющих; заключение для суда (ст. 78 СК); беседа с младшим сыном без давления; отразить: увоз 15.10 без согласия, под ложным предлогом «по запросу опеки», пропуски, диагноз, предупреждение 17.10. Показать: место для уроков, спальные места, вещи дочери (готово к возврату), меддокументы, договор со школой. Сына НЕ тренировать. Старший сын временно — объяснить.</li></ul>
+</div></div>
+<div class="sub-title">СУД — Фрунзенский районный суд г. Иваново, ул. Володарского, 26, 3 этаж</div>
+<div class="item" id="item-1019-t2">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t2" onclick="event.stopPropagation();toggleDone('1019-t2',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t2" onclick="event.stopPropagation();toggleStar('1019','1019-t2',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Ходатайство об ознакомлении с материалами дела </div>
+<div class="item-where">канцелярия суда</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> канцелярия суда, 2 экз. (ПЕРВЫМ делом; на одном — штамп «входящий»)</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Ходатайство_об_ознакомлении_с_материалами_дела.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%B0/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%BE_%D0%BE%D0%B1_%D0%BE%D0%B7%D0%BD%D0%B0%D0%BA%D0%BE%D0%BC%D0%BB%D0%B5%D0%BD%D0%B8%D0%B8_%D1%81_%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D0%B0%D0%BC%D0%B8_%D0%B4%D0%B5%D0%BB%D0%B0.md">✏ Редактировать</a></div>
+<div class="prev">В Фрунзенский районный суд г. Иваново
+Дело № <mark>[__________]</mark> (судья <mark>[Ф.И.О.]</mark>)
+Истец: <mark>[Ф.И.О. матери]</mark>,
+адрес: <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>, тел. +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+Ответчик: <mark>[Ф.И.О. отца]</mark>,
+адрес (факт.): <mark>[индекс]</mark> Ивановская область, Южский район, <mark>д. Снегирево</mark>, д. <mark>[__]</mark>
+ХОДАТАЙСТВО
+об ознакомлении с материалами дела
+В производстве суда находится дело № <mark>[__________]</mark> по исковому заявлению <mark>[Ф.И.О. отца]</mark> об определении места жительства несовершеннолетних детей (к встречному исковому заявлению <mark>[Ф.И.О. матери]</mark> об определении места жительства несовершеннолетних детей — дочери (<mark>2015 г.р.</mark>) и младшего сына (<mark>2011 г.р.</mark>), — с матерью).
+В соответствии со ст. 35 Гражданского процессуального кодекса Российской Федерации (право знакомиться с материалами дела, делать выписки из них, снимать копии) ПРОШУ:
+1. Разрешить мне (моему представителю) ознакомиться с материалами дела в полном объёме.
+2. Разрешить снять копии материалов дела, в том числе путём фотосъёмки.
+3. Сообщить мне дату и время ознакомления (по телефону и/или по адресу: <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>).
+Для ознакомления готова явиться в любое рабочее время по назначению суда, при себе — паспорт.
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/Ходатайства/Ходатайство_об_ознакомлении_с_материалами_дела.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t3">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t3" onclick="event.stopPropagation();toggleDone('1019-t3',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t3" onclick="event.stopPropagation();toggleStar('1019','1019-t3',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Ходатайство об обеспечении иска (немедленно вернуть дочь) </div>
+<div class="item-where">канцелярия суда</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> канцелярия суда, 2 экз. (просьба — рассмотреть в день поступления)</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Ходатайство_об_обеспечении_иска.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%B0/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%BE_%D0%BE%D0%B1_%D0%BE%D0%B1%D0%B5%D1%81%D0%BF%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D0%B8_%D0%B8%D1%81%D0%BA%D0%B0.md">✏ Редактировать</a></div>
+<div class="prev">В Фрунзенский районный суд г. Иваново
+<mark>[индекс]</mark>, г. Иваново, ул. <mark>[___]</mark>, д. <mark>[__]</mark>
+Дело № <mark>[__________]</mark> (судья <mark>[Ф.И.О.]</mark>)
+
+Истец: <mark>[Ф.И.О. матери]</mark>, адрес: <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>, тел. +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+Ответчик: <mark>[Ф.И.О. отца]</mark>, адрес (факт.): <mark>[индекс]</mark> Ивановская область, Южский район, <mark>д. Снегирево</mark>, д. <mark>[__]</mark>
+
+ХОДАТАЙСТВО (ЗАЯВЛЕНИЕ)
+об обеспечении иска
+(об определении места жительства несовершеннолетних детей)
+
+В производстве суда находится дело по иску <mark>[Ф.И.О. матери]</mark> к <mark>[Ф.И.О. отца]</mark> об определении места жительства несовершеннолетних детей — дочери (<mark>2015 г.р.</mark>) и младшего сына (<mark>2011 г.р.</mark>) (иск предъявлен «<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г. / находится на рассмотрении).
+Непринятие мер обеспечения иска затруднит исполнение решения суда и причинит существенный вред интересам несовершеннолетних детей по следующим обстоятельствам:
+1) «<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г. (15.10.2026) Ответчик без согласия второго родителя забрал ребёнка из школы прямо с последнего урока (пропущен урок алгебры) и увёз по адресу своего проживания (Ивановская область, Южский район, <mark>д. Снегирево</mark>), создавая фактическое положение «ребёнок проживает с отцом» к проведению обследования органом опеки;
+1а) при этом дочь была забрана в школьной одежде, со школьным рюкзаком, без вещей и предметов первой необходимости, необходимых для проживания; утром 15.10.2026 ребёнок ушла в школу в обычном, нормальном настроении, а после поездки к Ответчику в тот же день поведение и высказывания ребёнка резко изменились: несовершеннолетняя стала обвинять мать в плохом отношении, в том, что мать её «не поддерживает», и заявляла о желании остаться с Ответчиком. Указанная перемена произошла в течение одного дня и в ходе поездки с Ответчиком, что свидетельствует о настраивании несовершеннолетней против Истца и о негативном воздействии на ребёнка, страдающего повышенной тревожностью, — в том числе с целью формирования у суда представления о «желании» ребёнка проживать с Ответчиком;
+2) дочь, постоянно проживающая с матерью с момента рождения (более 8 лет), пропустила учебные занятия 16 и 17 октября 2026 г.; её обучение в [наименование] школе № 56 г. Иваново нарушено;
+3) у ребёнка выявлена повышенная тревожность, рекомендовано психиатрическое наблюдение и лечение; отрыв от привычного круга, врачей, школы, а также настраивание ребёнка против матери причиняют вред её здоровью;
+4) имеются основания опасаться дальнейших действий по изменению места жительства детей, воспрепятствованию общению с матерью и посещению школы, в том числе в отношении младшего сына, поскольку Ответчик действует последовательно и скрытно (сообщение учителю о действии «по запросу опеки» не соответствовало действительности);
+5) брат и сестра воспитывались вместе и привязаны друг к другу; перемещение одного из детей и возможное перемещение второго разрушают привычную среду обоих и противоречат их интересам;
+Меры обеспечения необходимы на период до вступления решения суда в законную силу. В соответствии со ст. 139–142 Гражданского процессуального кодекса Российской Федерации,
+
+Прошу также учесть: более 8 лет после расторжения брака дети проживают с матерью; ответчик не оспаривал этот порядок, никогда не обращался в суд с требованиями о месте жительстве или порядке общения, добровольно выплачивал алименты на содержание детей, проживающих с матерью, — то есть фактически принимал сложившийся порядок. Место жительства ребёнка при раздельном проживании родителей определяется соглашением родителей или решением суда (п. 3 ст. 65 СК РФ); какого-либо соглашения об изменении места жительства не было, решения суда нет. Самовольный увоз ребёнка 15.10.2026 не создаёт нового порядка и не должен ставиться суду перед фактом: до разрешения спора подлежит сохранению существующий порядок жизни ребёнка. Ответчик, ни слова не предупредив, самовольно забрал ребёнка.
+Позиция Ответчика подтверждается его собственным сообщением от 17.10.2026: «На учёбе будет и уедет со мной обратно, потому что ей так лучше», — то есть он сам признаёт, что ввозит ребёнка на обучение в г. Иваново и после занятий увозит обратно, продолжая в одностороннем порядке определять место жительства дочери; на требование вернуть дочь ответил отказом («Развивать тему смысла нет»).
+ПРОШУ:
+1. Обязать Ответчика немедленно возвратить несовершеннолетнюю дочь (<mark>2015 г.р.</mark>), по месту её фактического проживания: <mark>[индекс]</mark> г. Иваново, ул. Велижская, д. 1, кв. 37.
+2. Запретить Ответчику до вступления решения суда в законную силу совершать действия, направленные на изменение места жительства несовершеннолетних детей, а также вывозить каждого из детей за пределы г. Иваново и удерживать по иному адресу (в том числе на ночёвку) без письменного согласия Истца.
+3. Запретить Ответчику совершать действия, препятствующие посещению несовершеннолетними образовательного учреждения (<mark>[наименование]</mark> школа № 56 г. Иваново) и медицинским осмотрам, в том числе уклоняться от доставки детей к началу учебных занятий.
+4. На период рассмотрения дела определить общение Ответчика с несовершеннолетними по месту их проживания в г. Иваново, в дневное время, по предварительному согласованию с Истцом, без ночёвок и выездов.
+5. Направить копию определения об обеспечении иска в <mark>[наименование]</mark> школы № 56 г. Иваново и в орган опеки и попечительства по месту жительства детей для сведения и надлежащего исполнения.
+
+Определение суда об обеспечении иска прошу привести в исполнение немедленно (ст. 142 ГПК РФ). Рассмотреть настоящее ходатайство в день его поступления в суд (ст. 141 ГПК РФ) без извещения Ответчика, поскольку промедление делает меры обеспечения бессмысленными.
+
+ПРИЛОЖЕНИЯ:
+1. Копия искового заявления об определении места жительства детей.
+2. Справка из школы (о посещаемости; пропуски в октябре 2026 г.); копия сообщения классного руководителя от 15.10.2026.
+3. Копии заключений психолога и невропатолога (тревожность; рекомендации).
+4. Скриншот сообщения ответчику с просьбой привезти дочь на обучение (октябрь 2026 г.).
+5. Скриншот ответа ответчика от 17.10.2026 (отказ вернуть дочь; «На учёбе будет и уедет со мной обратно»).
+
+Примечание к приложениям: копии свидетельств о рождении детей, свидетельство о расторжении брака, договор найма жилого помещения, справки из школы, переписка сторон по иным поводам (вопросы алиментов, покупок, налогов), а также материалы исполнительного производства уже имеются в материалах дела № <mark>[__________]</mark> по иску об изменении способа взыскания алиментов (в т.ч. как приложения к исковому заявлению от 14.07.2026). Повторные копии указанных документов не прилагаются; прошу суд использовать документы, находящиеся в деле. Новые доказательства (сообщение классного руководителя от 15.10.2026, заключения психолога и невропатолога, скриншот сообщения ответчику с просьбой привезти дочь на обучение (октябрь 2026 г.), справка о пропусках занятий) прилагаются в настоящих приложениях.
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/Ходатайства/Ходатайство_об_обеспечении_иска.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t4">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t4" onclick="event.stopPropagation();toggleDone('1019-t4',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t4" onclick="event.stopPropagation();toggleStar('1019','1019-t4',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Ходатайство об отложении заседания (+ справка скорой) </div>
+<div class="item-where">канцелярия суда</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> канцелярия суда, 2 экз. (присутствие на заседании 20.10 не требуется)</li><li><b>КОММЕНТАРИЙ:</b> основания — здоровье; дочь настроена, нужна работа с психологом; доказательства собираются. Формула: «прошу рассмотреть в моё отсутствие; при отказе — отложить».</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Ходатайство_об_отложении_заседания_по_здоровью.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%9F%D0%BE%D1%8F%D1%81%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F_%D1%81%D1%83%D0%B4%D1%83/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%BE_%D0%BE%D0%B1_%D0%BE%D1%82%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B8_%D0%B7%D0%B0%D1%81%D0%B5%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F_%D0%BF%D0%BE_%D0%B7%D0%B4%D0%BE%D1%80%D0%BE%D0%B2%D1%8C%D1%8E.md">✏ Редактировать</a></div>
+<div class="prev">В Фрунзенский районный суд г. Иваново
+Дело № <mark>[__________]</mark> (судья <mark>[Ф.И.О.]</mark>)
+
+Истец: <mark>[Ф.И.О. матери]</mark>
+Ответчик: <mark>[Ф.И.О. отца]</mark>
+
+ХОДАТАЙСТВО
+об отложении судебного заседания по состоянию здоровья
+
+В производстве суда находится дело по исковому заявлению об определении места жительства несовершеннолетних детей. Судебное заседание назначено на <mark>[ДД.ММ.ГГГГ]</mark> г.
+В связи с резким ухудшением состояния здоровья, вызванным событиями 15.10.2026 (самовольный увоз несовершеннолетней дочери вторым родителем без моего согласия, пропуски учебных занятий, острый стресс), мной проходятся медицинское обследование и лечение: терапевт, невролог, психиатр/психотерапевт. В течение нескольких дней я была нетрудоспособна, нуждаюсь в восстановлении, что подтверждается медицинскими документами (представляю дополнительно / прикладываю).
+В настоящее время моё состояние не позволяет мне полноценно участвовать в судебном заседании и представлять свою позицию надлежащим образом.
+На основании статей 167, 169 Гражданского процессуального кодекса Российской Федерации ПРОШУ:
+1. Отложить судебное заседание по состоянию здоровья на другую дату.
+2. О времени и месте нового судебного заседания уведомить меня в установленном порядке.
+3. Учесть, что я не уклоняюсь от участия в судебном заседании и готова участвовать после стабилизации состояния здоровья; интересы детей защищаю и не намерена отказываться от заявленных требований.
+Приложения: медицинские документы (по мере получения); иные документы по необходимости.
+
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark>
+
+Дополнительно указываю: 15.10.2026 вторым родителем без моего согласия увезена дочь; она удерживается по месту его жительства, предпринимаются попытки её настроить против меня. Дочери требуется психологическая помощь и обследование специалистом; мной приняты меры к получению медицинских документов и заключения психолога (обращение к врачу 17.10.2026, работа со специалистом после возврата ребёнка). Для представления суду дополнительных доказательств (медицинские документы, заключение психолога, материалы по новым обстоятельствам) необходимо время.</div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/Пояснения_суду/Ходатайство_об_отложении_заседания_по_здоровью.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t5">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t5" onclick="event.stopPropagation();toggleDone('1019-t5',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t5" onclick="event.stopPropagation();toggleStar('1019','1019-t5',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Ходатайство об истребовании доказательств </div>
+<div class="item-where">канцелярия суда</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> канцелярия суда, 2 экз.</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Ходатайство_об_истребовании_доказательств.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%B0/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%BE_%D0%BE%D0%B1_%D0%B8%D1%81%D1%82%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B8_%D0%B4%D0%BE%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D1%82%D0%B2.md">✏ Редактировать</a></div>
+<div class="prev">В Фрунзенский районный суд г. Иваново
+Дело № <mark>[__________]</mark> (судья <mark>[Ф.И.О.]</mark>)
+Истец: <mark>[Ф.И.О. матери]</mark>,
+адрес: <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>, тел. +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+Ответчик: <mark>[Ф.И.О. отца]</mark>,
+адрес (факт.): <mark>[индекс]</mark> Ивановская область, Южский район, <mark>д. Снегирево</mark>, д. <mark>[__]</mark>
+ХОДАТАЙСТВО
+об истребовании доказательств
+Для правильного разрешения спора об определении места жительства несовершеннолетних детей и оценки условий жизни и воспитания детей каждой из сторон необходимо представить доказательства, которые я не могу получить самостоятельно. На основании ст. 57 ГПК РФ ПРОШУ суд истребовать следующие доказательства:
+1. У ответчика — судовую книжку («амбарную книжку») с записями за последние 3 года (2023–2026 гг.), а также документы и сведения о графике выхода в море (вахтах): с каким интервалом и на какой срок ответчик отсутствует по месту жительства; о размере его доходов; о месте и условиях работы (трудовые договоры, контракты, справки о доходах, выписки по счетам). Указанные сведения подтверждают, что ответчик подолгу отсутствует и не может обеспечить ребёнку постоянный уход, обучение и лечение, а также характеризуют его материальное положение. Прошу суд обязать ответчика предоставить перечисленные документы в установленный срок; при непредставлении — учесть положения ст. 68 ГПК РФ.
+2. Из отдела судебных приставов по месту жительства ответчика (УФССП по Ивановской области) — расчёт задолженности по алиментам и историю платежей по исполнительному производству № <mark>[__________]</mark> (судебный приказ от 28.01.2019) за 2019–2026 гг. Указанные сведения подтверждают нерегулярность исполнения алиментных обязательств и наличие задолженности.
+3. Из МДОУ «Светлячок» и организации «Телеком» (ПАО «Ростелеком») в п. Палех Ивановской области (по месту работы ответчика в прошлые периоды) — характеристику на работника <mark>[Ф.И.О. отца]</mark> за период работы, а также: сведения о соблюдении трудовой дисциплины (опоздания, неявки и прогулы); о случаях появления на работе в состоянии алкогольного опьянения и мерах реагирования (акты, направления на медицинское освидетельствование); о случаях невыхода на работу, в том числе в связи с употреблением алкоголя; копии приказов о дисциплинарных взысканиях; сведения о причинах и основаниях увольнения (если уволен). Указанные сведения подтверждают злоупотребление ответчиком алкоголем и его нравственные качества (п. 5 Постановления Пленума Верховного Суда РФ от 27.05.1998 № 10).
+6. Характеристику граждан и сельсовета с. Холуй (об условиях жизни Ответчика, его участии в воспитании ребёнка, объективная характеристика по месту связи с населённым пунктом).
+4. Из ОМВД России по Палехскому району Ивановской области — сведения о зарегистрированных обращениях и выездах наряда полиции по адресу проживания семьи в 2018–2019 гг., копии материалов книги учета заявлений и сообщений о происшествиях (КУСП), рапортов и объяснений. Указанные сведения подтверждают факты агрессивного поведения и злоупотребления алкоголем ответчика в период совместной жизни (нравственные качества родителя — п. 5 Постановления Пленума Верховного Суда РФ от 27.05.1998 № 10).
+5. При невозможности направить запросы в указанном объёме — истребовать перечисленные сведения в той части, которая необходима суду, а также иные документы, подтверждающие условия жизни и занятость ответчика.
+ПРОШУ:
+Истребовать указанные доказательства путём направления судебных запросов, обязать ответчика предоставить документы, указанные в пункте 1, в срок, установленный судом; полученные документы приобщить к материалам дела.
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/Ходатайства/Ходатайство_об_истребовании_доказательств.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t6">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t6" onclick="event.stopPropagation();toggleDone('1019-t6',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t6" onclick="event.stopPropagation();toggleStar('1019','1019-t6',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Исковое заявление о компенсации морального вреда </div>
+<div class="item-where">канцелярия суда</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> канцелярия суда, 2 экз. + госпошлина 300 ₽ (квитанция)</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Исковое_заявление_о_компенсации_морального_вреда.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%98%D1%81%D0%BA%D0%B8/%D0%98%D1%81%D0%BA%D0%BE%D0%B2%D0%BE%D0%B5_%D0%B7%D0%B0%D1%8F%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE_%D0%BA%D0%BE%D0%BC%D0%BF%D0%B5%D0%BD%D1%81%D0%B0%D1%86%D0%B8%D0%B8_%D0%BC%D0%BE%D1%80%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE_%D0%B2%D1%80%D0%B5%D0%B4%D0%B0.md">✏ Редактировать</a></div>
+<div class="prev">В Фрунзенский районный суд г. Иваново
+<mark>[индекс]</mark>, г. Иваново, ул. <mark>[___]</mark>, д. <mark>[__]</mark>
+Истец: <mark>[Ф.И.О. матери]</mark>
+Адрес (фактического проживания): <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>
+Телефон: +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+Ответчик: <mark>[Ф.И.О. отца]</mark>
+Адрес (фактического проживания): <mark>[индекс]</mark> Ивановская область, Южский район, <mark>д. Снегирево</mark>, д. <mark>[__]</mark>
+ИСКОВОЕ ЗАЯВЛЕНИЕ
+о компенсации морального вреда,
+причинённого нарушением прав матери и прав семьи
+Я, <mark>[Ф.И.О. матери]</mark>, являюсь матерью несовершеннолетней дочери (<mark>2015 года рождения</mark>) и несовершеннолетнего младшего сына (<mark>2011 года рождения</mark>). Отец детей — <mark>[Ф.И.О. отца]</mark> (далее — Ответчик). Брак расторгнут в 2019 году.
+1. НАРУШЕНИЕ ПРАВ ИСТЦА КАК МАТЕРИ
+Более восьми лет, с момента рождения детей и после расторжения брака, дети проживают и воспитываются мной: проживают в семье, ни с кем другим и никогда отдельно от меня не проживали. Место жительства детей сложилось и подтверждалось самим Ответчиком в течение всех этих лет: он знал, что дети живут со мной, не заявлял возражений, не обращался в суд, и, что принципиально, — выплачивал алименты в мою пользу на содержание двоих детей (судебный приказ от 28.01.2019). Алименты уплачиваются родителю, с которым фактически проживают дети, — то есть на протяжении восьми лет Ответчик косвенно подтверждал место жительства детей со мной.
+Масштаб несомого Истицей бремени подтверждается цифрами: алименты ответчика составляли 15 000 руб. в месяц, тогда как фактические расходы на детей — аренда квартиры, мебель, обучение, секции, лечение, быт — несла Истица в полном объёме и одна. Ответчик не принимал участия в этих расходах, не интересовался здоровьем детей (о диагнозе дочери я сообщила ему 17.10.2026), при этом характеризует создаваемые Истицей условия жизни детей как «излишние» и «ненужные», утверждая, что Истица «нерационально» расходует средства, — то есть обесценивает восьмилетний труд матери, чем дополнительно нарушаются её права и достоинство.
+Затем, в 2026 году — исключительно после моего обращения в суд с иском об изменении способа взыскания алиментов (в твёрдой денежной сумме), — Ответчик в одностороннем порядке, без предупреждения, без согласования со мной и без обращения в суд, фактически изменил сложившееся место жительства дочери: 15 октября 2026 года он, действуя втайне от меня, забрал дочь прямо с последнего урока (пропущен урок алгебры), в школьной одежде, без вещей, учебников и материалов, и увёз её в <mark>д. Снегирево</mark>. 17 октября 2026 года, несмотря на моё сообщение о начале занятий в 9:50, он не привёз дочь в школу. На моё требование вернуть дочь домой Ответчик 17.10.2026 ответил отказом («Развивать тему смысла нет»), заявил, что сам решает, где ребёнку лучше («На учёбе будет и уедет со мной обратно, потому что ей так лучше»), возложил на меня вину за сложившееся («ты сама довела до такой ситуации», «Ребёнок от хорошего отношения никогда не уйдёт. Это всё объясняет»), допустил высказывание в адрес моей личной жизни («требовать будешь от мужа или сожителя») и пригрозил прекратить общение («Будешь хамить, забаню»).
+Такими действиями нарушены мои права как матери: право на воспитание и повседневную заботу о детях (ст. 63 СК РФ), право на общение с ребёнком (ст. 55, 66 СК РФ), право законного представителя знать о месте нахождения ребёнка (ст. 64 СК РФ), право участвовать в решении вопросов жизни ребёнка. Ответчик поставил меня перед фактом, лишил возможности выполнять материнские обязанности и причинил мне глубокие нравственные страдания.
+2. НАРУШЕНИЕ ПРАВ ВСЕЙ СЕМЬИ
+Вред причинён не только мне, но и всей семье. Младший сын в течение нескольких дней только и говорил, что о сестре; оба сына тяжело переживают разлуку с сестрой, стараясь поддерживать меня. Я вынуждена скрывать случившееся от моего отца (деда детей), страдающего заболеванием сердца, опасаясь за его здоровье. Разделение братьев и сестры, разрушение сложившейся семьи и привычного порядка жизни детей противоречит интересам всех несовершеннолетних (ст. 54, 55 СК РФ).
+3. ПРИЧИНЁННЫЙ МОРАЛЬНЫЙ ВРЕД (реально существующий)
+В результате противоправных действий Ответчика я испытываю глубокие нравственные и физические страдания:
+— сильнейший стресс: две ночи подряд без сна, немедленное обращение в полицию;
+— ночные приступы панических атак: нарастающее учащённое сердцебиение, ощущение «мурашек» по всему телу, резкий мышечный спазм в руке или ноге с последующим отпусканием боли, повторное нарастание сердцебиения и ощущение близкой смерти;
+— внешние проявления стресса: всё лицо отекло, я не узнаю себя в зеркале;
+— вынужденные пропуски двух рабочих дней без оплаты, невозможность работать;
+— страдания моих детей, необходимость скрывать случившееся от деда детей.
+Указанные страдания являются реальными и подтверждаются медицинскими документами (я прохожу обследование), а также обстоятельствами дела. Противоправность действий Ответчика, его вина и причинная связь между его действиями и моими страданиями налицо: вред причинён умышленно, действия совершены втайне, без предупреждения, исключительно в собственных интересах Ответчика.
+ПРАВОВОЕ ОБОСНОВАНИЕ:
+Статья 151 Гражданского кодекса Российской Федерации (компенсация морального вреда при нарушении нематериальных благ: права на здоровье, права на воспитание и семейную жизнь); ст. 15, 1064 ГК РФ; ст. 54, 55, 63, 64, 65, 66 Семейного кодекса Российской Федерации; п. 1 ст. 3 Конвенции о правах ребёнка.
+ПРОШУ:
+1. Взыскать с <mark>[Ф.И.О. отца]</mark> в мою пользу компенсацию морального вреда, причинённого нарушением моих прав как матери и прав всей семьи, в размере <mark>[сумма]</mark> (<mark>[прописью]</mark>) рублей.
+2. Расходы на медицинское обследование и лечение — по факту их несения, о чём представлю отдельные расчёты и доказательства.
+ПРИЛОЖЕНИЯ:
+1. Копия настоящего искового заявления с приложениями для ответчика.
+2. Справка из школы; сведения о пропусках занятий в октябре 2026 г.; скриншоты из сервиса «Дневник.ру».
+3. Копия сообщения классного руководителя от 15.10.2026.
+4. Скриншот сообщения ответчику от 17.10.2026 (о начале занятий в 9:50).
+5. Скриншот ответа ответчика от 17.10.2026 (отказ вернуть дочь, обвинения, угроза «забаню»).
+5. Справка с работы о пропуске рабочих дней (после получения).
+6. Медицинские документы (выписка, справка) — по мере получения.
+7. Квитанция об уплате государственной пошлины.
+Примечание к приложениям: копии свидетельств о рождении детей, свидетельства о расторжении брака, договора найма жилого помещения, справки из школы о месте обучения, переписка сторон и материалы исполнительного производства уже имеются в материалах дела № <mark>[__________]</mark> по иску об изменении способа взыскания алиментов. Повторные копии не прилагаются; прошу суд использовать документы, находящиеся в деле (ст. 67 ГПК РФ).
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/Иски/Исковое_заявление_о_компенсации_морального_вреда.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t7">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t7" onclick="event.stopPropagation();toggleDone('1019-t7',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t7" onclick="event.stopPropagation();toggleStar('1019','1019-t7',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Дополнение о новых обстоятельствах + приобщение доказательств (хронология, скриншоты, пояснения, справка) </div>
+<div class="item-where">канцелярия суда</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> канцелярия суда, 2 экз. — чтобы судья знала ДО заседания</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Дополнение_о_новых_обстоятельствах.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%9F%D0%BE%D1%8F%D1%81%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F_%D1%81%D1%83%D0%B4%D1%83/%D0%94%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE_%D0%BD%D0%BE%D0%B2%D1%8B%D1%85_%D0%BE%D0%B1%D1%81%D1%82%D0%BE%D1%8F%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D1%82%D0%B2%D0%B0%D1%85.md">✏ Редактировать</a></div>
+<div class="prev">В Фрунзенский районный суд г. Иваново
+Дело № <mark>[__________]</mark>
+Истец: <mark>[Ф.И.О. матери]</mark>
+Ответчик: <mark>[Ф.И.О. отца]</mark>
+
+ДОПОЛНЕНИЕ
+о новых обстоятельствах и приобщении письменных доказательств
+
+В производстве суда находится дело по спору о месте жительстве несовершеннолетних детей. В связи с событиями, произошедшими после подачи исковых заявлений, и в целях полного и объективного рассмотрения дела сообщаю следующие новые обстоятельства и прошу приобщить к материалам письменные доказательства.
+
+1. 15.10.2026 (учебный день) отец приехал в школу № 56 г. Иваново и забрал дочь: классный руководитель разрешила ребёнку покинуть школу вместе с отцом, на урок алгебры дочь не пришла. Передача произведена под ложным предлогом действий «по запросу опеки»: какие-либо документы органа опеки отсутствуют; опека не вправе изымать или перевозить ребёнка через третьих лиц. Во всех документах школы (договор об образовании, личное дело, журнал) отец не указан — со стороны отца стоит прочерк.
+
+2. 15.10.2026 (вечер) я с сотрудниками полиции выезжала к дочери по месту нахождения ответчика: мы разговаривали, гуляли, обнялись; дочь сама просила остаться, и я оставила её по просьбе самого ребёнка. Дочь просила меня привезти её вещи; я не смогла этого сделать (на автомобиле потерян регистрационный номер).
+
+3. 17.10.2026 отец отказался вернуть дочь: «Развивать тему смысла нет», «На учёбе будет и уедет со мной обратно, потому что ей так лучше», — пригрозил прекратить общение («Будешь хамить, забаню»). Вопросами здоровья дочери отец не интересовался и с моей стороны информации о здоровье ему не направлялось.
+
+4. Указанные обстоятельства свидетельствуют о планомерности перемещения ребёнка (заранее известный классному руководителю невыход обучающейся 16.10.2026, выдача учебников), воспрепятствовании моему общению с дочерью и необходимости принятия мер обеспечения иска.
+
+ПРОШУ:
+1. Приобщить к материалам дела: хронологию событий (таблица), скриншоты переписки (сообщение классного руководителя 15.10.2026; сообщение дочери 15.10.2026; отказ ответчика 17.10.2026; предложение о встрече 17.10.2026), пояснения о событиях 15.10.2026, медицинские документы (справка от 17.10.2026).
+2. Учесть указанные сведения при рассмотрении ходатайства об обеспечении иска и ходатайства об отложении судебного заседания.
+
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/Пояснения_суду/Дополнение_о_новых_обстоятельствах.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t8">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t8" onclick="event.stopPropagation();toggleDone('1019-t8',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t8" onclick="event.stopPropagation();toggleStar('1019','1019-t8',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Ходатайство об опросе ответчика (перечень вопросов — приложением) </div>
+<div class="item-where">канцелярия суда</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> канцелярия суда, 2 экз.</li><li><b>КОММЕНТАРИЙ:</b> вопросы — Стратегия/Вопросы_к_ответчику_для_суда.md (распечатать, приложить 2 л.)</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Ходатайство_об_опросе_ответчика.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%B0/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%BE_%D0%BE%D0%B1_%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B5_%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%87%D0%B8%D0%BA%D0%B0.md">✏ Редактировать</a></div>
+<div class="prev">В Фрунзенский районный суд г. Иваново
+Дело № <mark>[__________]</mark>
+Истец: <mark>[Ф.И.О. матери]</mark>
+Ответчик: <mark>[Ф.И.О. отца]</mark>
+
+ХОДАТАЙСТВО
+об опросе ответчика по обстоятельствам дела
+
+Прошу в судебном заседании опросить ответчика по обстоятельствам дела, имеющим значение для определения места жительства несовершеннолетних детей, участия ответчика в их воспитании и содержании, а также по событиям 15–17.10.2026. Перечень вопросов прилагается.
+
+Дополнительно указываю: ответчик после расторжения брака не интересовался здоровьем дочери, медицинские обследования и профилактические мероприятия не организовывал и не оплачивал; вопрос о необходимости обследования ребёнка поднимался им единственный раз (около 2020 г.) и более не поднимался; мероприятия по обследованию и оздоровлению ребёнка в течение всего периода осуществлялись мной.
+
+ПРОШУ: опросить ответчика по прилагаемому перечню вопросов; ответы отразить в протоколе судебного заседания.
+
+Приложение: перечень вопросов к ответчику (Стратегия/Вопросы_к_ответчику_для_суда.md — распечатать) на 2 л.
+
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/Ходатайства/Ходатайство_об_опросе_ответчика.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t9">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t9" onclick="event.stopPropagation();toggleDone('1019-t9',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t9" onclick="event.stopPropagation();toggleStar('1019','1019-t9',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Ходатайство об опросе ребёнка и экспертизе — ОПРОС ТОЛЬКО С ПСИХОЛОГОМ, ВНЕ ЗАЛА </div>
+<div class="item-where">канцелярия суда</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> канцелярия суда, 2 экз.</li><li><b>КОММЕНТАРИЙ:</b> диагноз подтверждён; допрос в зале — не допускать; до экспертизы опрос не проводить либо в указанном порядке (психолог — желательно знакомый ребёнку).</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Ходатайство_об_опросе_ребёнка_и_экспертизе.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%B0/%D0%A5%D0%BE%D0%B4%D0%B0%D1%82%D0%B0%D0%B9%D1%81%D1%82%D0%B2%D0%BE_%D0%BE%D0%B1_%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B5_%D1%80%D0%B5%D0%B1%D1%91%D0%BD%D0%BA%D0%B0_%D0%B8_%D1%8D%D0%BA%D1%81%D0%BF%D0%B5%D1%80%D1%82%D0%B8%D0%B7%D0%B5.md">✏ Редактировать</a></div>
+<div class="prev">В Фрунзенский районный суд г. Иваново
+Дело № <mark>[__________]</mark> (судья <mark>[Ф.И.О.]</mark>)
+
+Истец: <mark>[Ф.И.О. матери]</mark>, адрес: <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>, тел. +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+Ответчик: <mark>[Ф.И.О. отца]</mark>, адрес (факт.): <mark>[индекс]</mark> Ивановская область, Южский район, <mark>д. Снегирево</mark>, д. <mark>[__]</mark>
+
+ХОДАТАЙСТВО
+об опросе несовершеннолетнего ребёнка и назначении комплексной психолого-психиатрической экспертизы
+
+В производстве суда находится дело по спору о месте жительства несовершеннолетних детей — дочери (<mark>2015 г.р.</mark>) и младшего сына (<mark>2011 г.р.</mark>) (исковое заявление от <mark>[ДД.ММ.ГГГГ]</mark>; встречное исковое заявление ответчика от <mark>[ДД.ММ.ГГГГ]</mark>).
+Обоснование. 15.10.2026 ответчик без согласия и уведомления истца забрал ребёнка из школы и увёз к себе (Ивановская область, Южский район, <mark>д. Снегирево</mark>). Утром указанного дня ребёнок ушла в школу в обычном настроении; после поездки с ответчиком поведение и высказывания ребёнка резко изменились: она стала обвинять мать в плохом отношении, заявлять о желании проживать с отцом. У несовершеннолетней психологом и невропатологом выявлена повышенная тревожность, рекомендовано психиатрическое наблюдение и лечение.
+Указанные обстоятельства дают основания полагать, что высказываемое ребёнком мнение о желании проживать с отцом является результатом воздействия ответчика, а не свободным и осознанным волеизъявлением. В силу ст. 57 СК РФ учёт мнения ребёнка, достигшего десяти лет, обязателен, однако по п. 20 Постановления Пленума Верховного Суда РФ от 27.05.1998 № 10 суд обязан выяснить, является ли мнение ребёнка свободным от воздействия одного из родителей.
+
+Дополнительно прошу: опрос несовершеннолетней дочери производить ВНЕ зала судебного заседания, в спокойной обстановке, с обязательным участием психолога (специалиста) — желательно того, с которым ребёнок уже проходил обследование и работу. Опрос ребёнка прямо в зале судебного заседания, в присутствии сторон, прошу не допускать: у дочери подтверждено психологическое расстройство (повышенная тревожность, рекомендовано психиатрическое наблюдение), повторная психотравма и давление недопустимы (ст. 57 СК РФ; педагог и/или психолог участвуют в допросе несовершеннолетнего — ст. 179 ГПК РФ, по аналогии; оценка достоверности и действительной воли ребёнка — предмет судебной психолого-педиатрической экспертизы). До проведения экспертизы прошу опрос дочери не проводить либо проводить в указанном порядке.
+ПРОШУ:
+1. Опросить несовершеннолетнюю дочь (<mark>2015 г.р.</mark>), в спокойной обстановке, без присутствия обоих родителей, с участием педагога-психолога (при необходимости — с выездом к месту её нахождения), с фиксацией хода опроса.
+2. Опросить несовершеннолетнего младшего сына (<mark>2011 года рождения</mark>), достигшего возраста десяти лет, в том же порядке: в спокойной обстановке, без присутствия обоих родителей, с участием педагога-психолога, с фиксацией хода опроса. Просью учесть, что его мнение обязательно для суда (ст. 57 СК РФ).
+2. Назначить комплексную судебную психолого-психиатрическую экспертизу с участием несовершеннолетней, поставив на разрешение экспертов вопросы:
+— к кому из родителей привязан несовершестволетний ребёнок и какова степень этой привязанности;
+— подвергался ли ребёнок психологическому воздействию (настраиванию) со стороны одного из родителей, в том числе в период с 15.10.2026;
+— каково психическое состояние ребёнка (повышенная тревожность), как оно влияет на формирование и выражение её мнения;
+— способен ли ребёнок в сложившейся ситуации выразить свободное и осознанное мнение о месте проживания;
+— с проживанием с кем из родителей (с учётом привычного круга жизни, обучения, медицинского наблюдения) связано наилучшее обеспечение интересов ребёнка.
+3. Поручить органу опеки и попечительства дать заключение по существу спора с учётом обстоятельств, изложенных в настоящем ходатайстве (ст. 78 СК РФ).
+
+ПРИЛОЖЕНИЯ:
+1. Копии заключений психолога и невропатолога (тревожность; рекомендации).
+2. Копия сообщения классного руководителя от 15.10.2026.
+3. Скриншот сообщения ответчику с просьбой привезти дочь на обучение (октябрь 2026 г.).
+
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark>
+1. Каково психическое и эмоциональное состояние дочери, соответствует ли оно имеющемуся диагнозу (повышенная тревожность, нервно-психическое напряжение), и каковы особенности её психики, влияющие на общение и восприятие информации?
+2. Оказали ли события октября 2026 года (увоз из школы без согласия матери, смена обстановки, разлука с матерью, пропуск учебных занятий) негативное влияние на состояние дочери; в чём оно выражается?
+3. Имеются ли признаки того, что высказывания и мнение дочери в отношении отца и места жительства сформированы под влиянием или давлением (манипуляциями) со стороны отца или иных лиц, а не являются её свободным волеизъявлением?
+4. Имеются ли признаки эмоционального насилия в действиях отца в отношении дочери (тайные встречи, подарки, неисполненные обещания, длительное отсутствие — «эмоциональные качели») и каковы их последствия для её психического здоровья?
+5. Насколько достоверно и последовательно дочь с учётом особенностей психики и возможного состояния страха может излагать факты; допустимо ли принимать её высказывания как безусловное подтверждение обстоятельств без дополнительной оценки?
+6. Каковы особенности отношения младшего сына (15 лет) к отцу; чем объясняется его отказ называть отца отцом; соответствуют ли интересам обоих детей проживание с матерью?
+7. Каковы рекомендации по организации общения детей с отцом (если оно допустимо) с учётом их психического состояния?
+Дополнительно к вопросам для эксперта прошу поставить:</div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/Ходатайства/Ходатайство_об_опросе_ребёнка_и_экспертизе.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="sub-title">ШКОЛА</div>
+<div class="item" id="item-1019-t10">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t10" onclick="event.stopPropagation();toggleDone('1019-t10',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t10" onclick="event.stopPropagation();toggleStar('1019','1019-t10',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Заявление директору (журнал «Н», договор, объяснения по выдаче 15.10) </div>
+<div class="item-where">директору</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> директору, 2 экз. — под роспись</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Заявление_директору_школы.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%92_%D1%88%D0%BA%D0%BE%D0%BB%D1%83/%D0%97%D0%B0%D1%8F%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B4%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D1%83_%D1%88%D0%BA%D0%BE%D0%BB%D1%8B.md">✏ Редактировать</a></div>
+<div class="prev">Директору <mark>[наименование]</mark> школы № 56 г. Иваново
+<mark>[Ф.И.О. директора]</mark>
+От: <mark>[Ф.И.О. матери]</mark> (законный представитель обучающейся (дочери, <mark>2015 года рождения</mark>, класс <mark>[__]</mark>))
+Адрес: <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>, тел. +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+
+ЗАЯВЛЕНИЕ
+
+Сообщаю, что 15.10.2026 в учебное время, с последнего урока (дочь пропустила урок алгебры) отец обучающейся без моего согласия и уведомления забрал её из школы и увёз по адресу своего проживания (Ивановская область, Южский район, д. Снегирево). Согласия на отпуск ребёнка и на освобождение от занятий на последующие дни я не давала; об отпуске ребёнка на несколько дней мне не сообщалось. В связи с этим,
+
+ПРОШУ:
+1. Зафиксировать пропуск урока алгебры 15.10.2026 как неуважительный (с указанием причины) и отразить в табеле посещаемости. Считать отсутствие обучающейся на занятиях с 15.10.2026 неуважительным (по причине самовольного увоза вторым родителем) до представления моего письменного заявления об освобождении от занятий.
+2. Впредь не освобождать моего ребёнка от занятий и не передавать её ни с кем, кроме меня, без моего письменного согласия; при обращении отца — немедленно сообщать мне по телефону.
+3. Предоставить мне справку о посещаемости обучающейся за октябрь 2026 г. и письменное пояснение классного руководителя и учителя алгебры об обстоятельствах 15.10.2026 (кем и на каком основании ребёнок отпущен с последнего урока, кому передан, когда и как я была уведомлена).
+4. Выдать мне копию договора об образовании (копию личного дела) для предъявления в суд.
+5. Уведомить меня о любых обращениях отца ребёнка (устных и письменных), связанных с моим ребёнком.
+
+Правовое обоснование: ст. 63 СК РФ (право и обязанность родителей обеспечить получение детьми общего образования); договор об образовании заключён со мной; место жительства ребёнка фактически определено со мной; в суде рассматривается спор о месте жительстве ребёнка, мной заявлено ходатайство об обеспечении иска.
+
+Дополнительно сообщаю и прошу учесть: единственный, кто заключал договор с школой об обучении, — я; во всех полях и документах школы отец ребёнка не указан (прочерк); отец никогда не приводил и не передавал ребёнка школе, с нами не проживает с 2019 года. При этом 15.10.2026 ребёнок был выдан ему без уведомления меня — законного представителя.
+Прошу также в письменной форме сообщить мне: на каком основании и при предъявлении каких документов несовершеннолетняя была выдана 15.10.2026 второму родителю, а также приложить копии соответствующих записей (журнал выдачи/пропускной режим). Никаких постановлений органа опеки и попечительства или иных решений, разрешающих передачу ребёнка, не представлялось.
+3. Отразить в табеле/классном журнале причины отсутствия обучающейся 16–17.10.2026 (самовольный увоз вторым родителем), несмотря на отметку «Н»; при необходимости выдачи документов о пропусках — указывать действительную причину.
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/В_школу/Заявление_директору_школы.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t11">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t11" onclick="event.stopPropagation();toggleDone('1019-t11',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t11" onclick="event.stopPropagation();toggleStar('1019','1019-t11',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Заявление о порядке передачи ребёнка (только матери) </div>
+<div class="item-where">директору</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> директору, 2 экз. — под роспись; копию — охране и классруководителю</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Заявление_о_порядке_передачи_ребёнка_только_матери.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%92_%D1%88%D0%BA%D0%BE%D0%BB%D1%83/%D0%97%D0%B0%D1%8F%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BE_%D0%BF%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%B5_%D0%BF%D0%B5%D1%80%D0%B5%D0%B4%D0%B0%D1%87%D0%B8_%D1%80%D0%B5%D0%B1%D1%91%D0%BD%D0%BA%D0%B0_%D1%82%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE_%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8.md">✏ Редактировать</a></div>
+<div class="prev">Директору <mark>[наименование]</mark> школы № 56 г. Иваново
+Смирновой И.В.
+От: <mark>[Ф.И.О. матери]</mark> (законный представитель обучающейся — дочери, 2015 года рождения),
+адрес: <mark>[индекс]</mark> г. Иваново, ул. Велижская, д. 1, кв. 37, тел. +7 <mark>[__] [___] [__] [__]</mark>
+
+ЗАЯВЛЕНИЕ
+о порядке передачи ребёнка при окончании занятий
+
+Я являюсь законным представителем моей дочери (2015 года рождения) и единственной стороной Договора об образовании, заключённого между мной и школой (в графе «родитель» со стороны отца — прочерк; договор заключён мной лично).
+
+15.10.2026 школа без моего уведомления и без моего согласия передала мою дочь отцу прямо с учебного занятия (с урока алгебры) под предлогом действий «по запросу опеки», который не соответствует действительности. Указанные обстоятельства послужили основанием для моих обращений в департамент образования и иные органы.
+
+В связи с изложенным, руководствуясь Федеральным законом «Об образовании в Российской Федерации» (организатор образования несёт ответственность за жизнь и здоровье обучающихся в период образовательного процесса) и условиями Договора об образовании, ПРОШУ:
+1. Организовать передачу моей дочери при окончании занятий исключительно мне лично (законному представителю по Договору).
+2. При обращении иных лиц, в том числе отца ребёнка, с просьбой передать (отпустить, выдать) ребёнка — не передавать ребёнка без моего письменного согласия, незамедлительно связаться со мной по указанному телефону, а при невозможности связи и признаках давления — вызвать полицию (102).
+3. Письменно ознакомить с настоящим порядком классного руководителя, учителей, ведущих занятия в дни пребывания моего ребёнка в школе, и сотрудников охраны.
+4. Дать мне письменные объяснения: кто и на каком основании принял решение о передаче моего ребёнка 15.10.2026, и почему я не была уведомлена о передаче ребёнка.
+
+Настоящий порядок действует впредь до моего письменного заявления либо до вступления в законную силу решения суда по спору о месте жительства ребёнка (такого решения в настоящее время не имеется).
+
+Приложение: копия Договора об образовании (при наличии).
+
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/В_школу/Заявление_о_порядке_передачи_ребёнка_только_матери.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t12">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t12" onclick="event.stopPropagation();toggleDone('1019-t12',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t12" onclick="event.stopPropagation();toggleStar('1019','1019-t12',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Забрать дочь из школы после уроков (план Б — если не уехала воскресеньем) </div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КОММЕНТАРИЙ:</b> остаюсь в школе с утра; забираю лично; отцу и другим не отдавать (заявление + охрана); скандалов не устраивать.</li></ul>
+</div></div>
+<div class="sub-title">ОРГАНЫ</div>
+<div class="item" id="item-1019-t13">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t13" onclick="event.stopPropagation();toggleDone('1019-t13',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t13" onclick="event.stopPropagation();toggleStar('1019','1019-t13',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Жалоба в департамент образования </div>
+<div class="item-where">ул. Театральная</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> ул. Театральная, 5а, канцелярия, 2 экз.</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Жалоба_в_департамент_образования.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%92_%D1%88%D0%BA%D0%BE%D0%BB%D1%83/%D0%96%D0%B0%D0%BB%D0%BE%D0%B1%D0%B0_%D0%B2_%D0%B4%D0%B5%D0%BF%D0%B0%D1%80%D1%82%D0%B0%D0%BC%D0%B5%D0%BD%D1%82_%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F.md">✏ Редактировать</a></div>
+<div class="prev">В Департамент образования администрации города Иваново
+<mark>[адрес, электронная почта]</mark>
+От: <mark>[Ф.И.О. матери]</mark>, адрес: <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>, тел. +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+
+ЖАЛОБА
+на действия школы № 56 г. Иваново (выдача несовершеннолетней второму родителю без уведомления законного представителя)
+
+Я, <mark>[Ф.И.О. матери]</mark>, являюсь матерью и законным представителем несовершеннолетней дочери (<mark>2015 года рождения</mark>), обучающейся школы № 56 г. Иваново. Единственный, кто заключал договор с школой об обучении, — я; во всех документах школы отец ребёнка не указан (прочерк); отец с нами не проживает с 2019 года, никогда не приводил и не передавал ребёнка школе.
+15.10.2026 в учебное время отец ребёнка (Андрей) без моего согласия и уведомления забрал дочь прямо с последнего урока (алгебра) и увёз по адресу своего проживания (д. Снегирево Южского района). Учительница по алгебре отпустила ребёнка с урока в одностороннем порядке. Классному руководителю отец объяснил выдачу действием «по запросу опеки» — орган опеки и попечительства никаких разрешений на передачу ребёнка не давал. Какие документы предъявлялись при выдаче ребёнка, школа мне не сообщила; никаких постановлений или решений, разрешающих передачу ребёнка, не представлялось.
+В результате ребёнок, имеющий психическое расстройство (повышенная тревожность; рекомендовано психиатрическое наблюдение), был увезён без учёта состояния здоровья, режима и врачей; допущены пропуски учебных занятий 16–17.10.2026, отмеченные в журнале без указания причины.
+На основании изложенного ПРОШУ:
+1. Провести служебную проверку обстоятельств выдачи несовершеннолетней 15.10.2026 второму родителю, включая основания и документы, на которых это было сделано, и действия работников школы.
+2. Признать действия по выдаче ребёнка без уведомления законного представителя неправомерными и принять меры по недопущению подобных случаев: передача ребёнка третьим лицам, в том числе второму родителю, — только с письменного согласия законного представителя либо на основании решения суда/органа опеки.
+3. Отразить действительные причины пропусков занятий 16–17.10.2026 (самовольный увоз вторым родителем) в табеле/классном журнале.
+4. Сообщить мне в письменной форме о результатах проверки и принятых мерах.
+Копия настоящей жалобы направляется уполномоченному по правам ребёнка и в комиссию по делам несовершеннолетних.
+Дополнительно прошу провести служебную проверку: классному руководителю было заранее сообщено, что дочь не появится в школе 16.10.2026 (ранее, чем я была уведомлена о происходящем), ей были выданы учебники, при этом в документах школы отец ребёнка не значится (прочерк), а передача произведена под ложным предлогом действий «по запросу опеки». Прошу дать оценку действиям классного руководителя и администрации школы, принять меры и сообщить мне о результатах проверки.
+
+Приложения: копия договора с школой (подписант — мать); скриншот сообщения классного руководителя от 15.10.2026; сведения о пропусках; копия сообщения отцу от 17.10.2026.
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/В_школу/Жалоба_в_департамент_образования.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t14">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t14" onclick="event.stopPropagation();toggleDone('1019-t14',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t14" onclick="event.stopPropagation();toggleStar('1019','1019-t14',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Обращение к омбудсмену (права ребёнка и матери) </div>
+<div class="item-where">Театральная</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> Театральная, 16/10, 2 экз. + записаться на приём (8-4932-32-62-40)</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Обращение_к_омбудсмену_права_ребёнка_и_матери.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%9E%D0%BC%D0%B1%D1%83%D0%B4%D1%81%D0%BC%D0%B5%D0%BD%D1%83/%D0%9E%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BA_%D0%BE%D0%BC%D0%B1%D1%83%D0%B4%D1%81%D0%BC%D0%B5%D0%BD%D1%83_%D0%BF%D1%80%D0%B0%D0%B2%D0%B0_%D1%80%D0%B5%D0%B1%D1%91%D0%BD%D0%BA%D0%B0_%D0%B8_%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8.md">✏ Редактировать</a></div>
+<div class="prev">Уполномоченному по правам ребёнка в Ивановской области
+<mark>[адрес, электронная почта]</mark>
+От: <mark>[Ф.И.О. матери]</mark>, адрес: <mark>[индекс]</mark> г. Иваново, ул. Велижская, д. 1, кв. 37, тел. +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+
+ОБРАЩЕНИЕ
+о нарушении прав несовершеннолетнего ребёнка и прав матери
+
+15.10.2026 отец моей несовершеннолетней дочери (<mark>2015 года рождения</mark>) без моего согласия и уведомления забрал её из школы № 56 г. Иваново прямо с урока и увёз в д. Снегирево Южского района, объяснив школе выдачу ребёнка действием «по запросу опеки» (орган опеки разрешений не давал). Школа отпустила ребёнка без уведомления законного представителя.
+Дочь с детства имеет психологические особенности (повышенная тревожность; рекомендовано психиатрическое наблюдение). Увоз без учёта состояния здоровья, пропуски учебных занятий (16–17.10.2026) и разлука с семьёй представляют риск для её психического здоровья и нарушают права ребёнка на образование, охрану здоровья и проживание с матерью. 17.10.2026 отец уведомлен мной о диагнозе; срок возврата ребёнка — 18.10.2026.
+Нарушены также мои права как матери: более 8 лет дети проживают со мной, я единолично осуществляю их воспитание и содержание; ребёнок перемещён вторым родителем самовольно, вопреки сложившемуся порядку. Указанные события причинили существенный вред моему психическому здоровью и здоровью всей семьи (острый стресс, панические атаки, нетрудоспособность; я обращаюсь за медицинской помощью).
+Дополнительно обращаю внимание: нарушены права ребёнка — школа передала дочь лицу, не указанному в документах школы (со стороны отца — прочерк), под ложным предлогом «по запросу опеки», заранее зная об отъезде ребёнка (выдача учебников при известном невыходе 16.10.2026), не уведомив законного представителя. Прошу содействия в проверке указанных обстоятельств и защите прав ребёнка.
+
+ПРОШУ:
+1. Принять меры по защите прав несовершеннолетней: содействие в возврате ребёнка по месту проживания и обучения, обеспечении права на образование.
+2. Зафиксировать факт нарушения прав ребёнка и прав матери.
+3. Взаимодействовать по вопросам проверки с комиссией по делам несовершеннолетних, органом опеки и попечительства и департаментом образования.
+4. Рассмотреть настоящее обращение в установленный срок и сообщить мне о результатах. Готова изложить обстоятельства лично на приёме.
+Приложения: копия сообщения классного руководителя от 15.10.2026; сведения о пропусках; копия сообщения отцу от 17.10.2026; медицинские документы (по мере получения).
+
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/Омбудсмену/Обращение_к_омбудсмену_права_ребёнка_и_матери.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t15">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t15" onclick="event.stopPropagation();toggleDone('1019-t15',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t15" onclick="event.stopPropagation();toggleStar('1019','1019-t15',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Заявление в КДН (ст. 5.35 КоАП) </div>
+<div class="item-where">Шереметевский</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> Шереметевский, 1/229, 2 экз. — штамп «входящий» ОБЯЗАТЕЛЬНО</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Заявление_в_КДН_об_административном_правонарушении.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%9A%D0%94%D0%9D/%D0%97%D0%B0%D1%8F%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D0%9A%D0%94%D0%9D_%D0%BE%D0%B1_%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%BC_%D0%BF%D1%80%D0%B0%D0%B2%D0%BE%D0%BD%D0%B0%D1%80%D1%83%D1%88%D0%B5%D0%BD%D0%B8%D0%B8.md">✏ Редактировать</a></div>
+<div class="prev">В Комиссию по делам несовершеннолетних и защите их прав
+при Администрации города Иванова
+153000, г. Иваново, Шереметевский проспект, д. 1, каб. 229
+(тел. (4932) 59-47-29, 59-47-28; e-mail: kdn@ivgoradm.ru)
+(копия: участковый уполномоченный полиции ОМВД России по г. Иваново;
+копия: прокуратура города Иванова)
+От <mark>[Ф.И.О. матери]</mark>
+Адрес: <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>
+Телефон: +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+В отношении: <mark>[Ф.И.О. отца]</mark>,
+проживающего: Ивановская область, Южский район, <mark>д. Снегирево</mark>, д. <mark>[__]</mark>
+ЗАЯВЛЕНИЕ
+о совершении административного правонарушения,
+предусмотренного частью 1 статьи 5.35 КоАП РФ
+Я, <mark>[Ф.И.О. матери]</mark>, являюсь матерью несовершеннолетней дочери (<mark>2015 года рождения</mark>). Отец ребёнка — <mark>[Ф.И.О. отца]</mark> (далее — Отец) — проживает в д. Снегирево Южского района Ивановской области.
+15 октября 2026 года Отец без моего согласия и без предварительного уведомления забрал дочь из школы прямо с последнего урока (дочь пропустила урок алгебры), в школьной одежде, без вещей, и увёз её по месту своего проживания. Учителю он пояснил, что действует «по запросу опеки», что не соответствует действительности: орган опеки и попечительства не уполномочен передавать ребёнка родителям. В результате неправомерных действий Отца несовершеннолетняя пропустила учебные занятия: 15 октября 2026 г. — урок алгебры (последний урок), 16 и 17 октября 2026 г. — весь учебный день. По настоящее время Отец не принял мер к возвращению дочери к обучению в <mark>[наименование]</mark> школе № 56 г. Иваново.
+Указанные пропуски произошли в конце учебного триместра, накануне каникул и итоговых контрольных мероприятий, что причинило существенный ущерб образованию ребёнка: дочь пропустила программный материал и оказалась в невыгодном положении перед проверочными работами.
+Отец также не обеспечил ребёнка необходимыми для обучения документами, учебниками, тетрадями и материалами: дочь была увезена без каких-либо вещей и школьных принадлежностей, по месту проживания ребёнка Отец не заезжал и ничего не забрал. Подготовленные мной для дочери материалы (тренажёры, контрольные работы, учебные пособия) остались дома; в настоящее время я вынуждена направлять их дочери дистанционно, и несовершеннолетняя вынуждена восполнять программу самостоятельно в непривычных условиях.
+Впереди у дочери экзамены, переэкзаменовка по истории и иные итоговые контрольные мероприятия; пропуски занятий и отсутствие учебных материалов в данный период причиняют реальный и значительный ущерб образованию ребёнка.
+С начала конфликта Отец ни разу не обратился ко мне за информацией о том, как организовать обучение и жизнь ребёнка, свои действия не согласовывал. Утром 17 октября 2026 года я направила ему сообщение о том, что у дочери занятия начинаются в 9:50 и что он обязан привезти её на занятия; сообщение оставлено без ответа, ребёнок на занятия доставлен не был.
+В силу ст. 63 Семейного кодекса Российской Федерации родители несут ответственность за воспитание и развитие детей и обязаны обеспечить получение детьми общего образования. В соответствии со ст. 44 Федерального закона от 29.12.2012 № 273-ФЗ «Об образовании в Российской Федерации» родители обязаны обеспечить получение детьми общего образования и соблюдать правила внутреннего распорядка организации, осуществляющей образовательную деятельность. Неисполнение родителями обязанностей по содержанию, воспитанию, обучению, защите прав и интересов несовершеннолетних влечёт административную ответственность по части 1 статьи 5.35 Кодекса Российской Федерации об административных правонарушениях.
+Указанные обстоятельства подтверждаются: сведениями о посещаемости (в том числе скриншотами из сервиса «Дневник.ру»); сообщением классного руководителя от 15.10.2026 о том, что дочь была забрана из школы в учебное время. Мною также подано заявление в отдел опеки и попечительства Южского района; в полиции мне было отказано в помощи со ссылкой на «равные права отца», однако равенство родительских прав не освобождает родителя от обязанностей по обучению ребёнка.
+Дополнительно сообщаю: 17.10.2026 я уведомила отца о диагнозе ребёнка и потребовала вернуть его домой, установив срок возврата — 18.10.2026 (сообщение сохранено). Кроме того, установлено, что школа отпустила ребёнка отцу без уведомления законного представителя, занятия 16–17.10.2026 пропущены. Указанные обстоятельства подтверждаются перепиской и сведениями школы.
+Отец отказался вернуть дочь: 17.10.2026 в ответ на моё требование он сообщил «Развивать тему смысла нет», «На учёбе будет и уедет со мной обратно, потому что ей так лучше», обвинил меня в случившемся («ты сама довела до такой ситуации») и пригрозил прекратить общение («Будешь хамить, забаню»). Тем самым невыполнение обязанностей по обучению ребёнка носит длящийся характер, а Ответчик самоуправно определяет место нахождения несовершеннолетней.
+Также сообщаю: в полиции мне было отказано в помощи со ссылкой на то, что «ребёнок уехал к отцу и хочет там жить», и предупреждено, что при возврате ребёнка отец обратится в прокуратуру с жалобой на «незаконные действия».
+ПРОШУ:
+1. Организовать составление протокола об административном правонарушении, предусмотренном частью 1 статьи 5.35 КоАП РФ, в отношении <mark>[Ф.И.О. отца]</mark> и рассмотреть дело в установленном законом порядке.
+2. Привлечь <mark>[Ф.И.О. отца]</mark> к административной ответственности по части 1 статьи 5.35 КоАП РФ.
+3. Провести с <mark>[Ф.И.О. отца]</mark> профилактическую работу о недопустимости нарушения прав ребёнка на образование и о необходимости обеспечить посещение дочерью школы.
+4. Сообщить мне о результатах рассмотрения настоящего заявления по адресу: <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>.
+ПРИЛОЖЕНИЯ:
+1. Копия свидетельства о рождении ребёнка.
+2. Сведения о пропусках занятий в октябре 2026 г. (в том числе скриншоты из сервиса «Дневник.ру»).
+3. Копия сообщения классного руководителя от 15.10.2026.
+4. Скриншот сообщения Отцу от 17.10.2026 (о начале занятий в 9:50 и необходимости привезти дочь).
+5. Скриншот ответа Отца от 17.10.2026 (отказ вернуть дочь, угроза прекратить общение).
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/КДН/Заявление_в_КДН_об_административном_правонарушении.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t16">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t16" onclick="event.stopPropagation();toggleDone('1019-t16',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t16" onclick="event.stopPropagation();toggleStar('1019','1019-t16',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Запрос копий материалов проверки в опеку Южского района </div>
+<div class="item-where">ЗАКАЗНЫМ письмом (г. Южа</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> ЗАКАЗНЫМ письмом (г. Южа, ул. Советская, 23) с описью и уведомлением</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Запрос_копий_материалов_проверки_опека_Южского_района.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%92_%D0%BE%D0%BF%D0%B5%D0%BA%D1%83/%D0%97%D0%B0%D0%BF%D1%80%D0%BE%D1%81_%D0%BA%D0%BE%D0%BF%D0%B8%D0%B9_%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D0%BE%D0%B2_%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B8_%D0%BE%D0%BF%D0%B5%D0%BA%D0%B0_%D0%AE%D0%B6%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D1%80%D0%B0%D0%B9%D0%BE%D0%BD%D0%B0.md">✏ Редактировать</a></div>
+<div class="prev">В отдел опеки и попечительства Южского района Ивановской области
+(г. Южа, ул. Советская, 23)
+От: <mark>[Ф.И.О. матери]</mark>, адрес: <mark>[индекс]</mark> г. Иваново, ул. Велижская, д. 1, кв. 37, тел. +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+
+ЗАПРОС
+о предоставлении копий материалов проверки
+
+Я, <mark>[Ф.И.О. матери]</mark>, являюсь матерью несовершеннолетней дочери (<mark>2015 года рождения</mark>). 15.10.2026 отец ребёнка без моего согласия и уведомления забрал дочь из школы № 56 г. Иваново и увёз в д. Снегирево Южского района.
+По имеющимся у меня сведениям, отделом опеки и попечительства проводится проверка (обследование жилищно-бытовых условий по месту жительства отца, беседа с несовершеннолетней). Материалы проверки необходимы мне для защиты прав ребёнка и моих прав, а также для представления в суд (дело об определении места жительства несовершеннолетних детей).
+ПРОШУ:
+1. Предоставить мне копии материалов проверки: акт (заключение) обследования жилищно-бытовых условий; сведения о результатах беседы с несовершеннолетней; иные материалы проверки по обстоятельствам увоза ребёнка 15.10.2026.
+2. Учесть при проверке: 17.10.2026 я уведомила отца о диагнозе ребёнка (психическое расстройство; рекомендовано психиатрическое наблюдение) и потребовала вернуть ребёнка, установив срок возврата — 18.10.2026; отец не принимает участия в обучении и лечении ребёнка; место жительства ребёнка с матерью не изменялось более 8 лет.
+3. Направить копии материалов в Фрунзенский районный суд г. Иваново (дело № <mark>[__________]</mark>) и в комиссию по делам несовершеннолетних.
+В связи с отдалённостью (более 150 км) прошу направить документы почтой по моему адресу; личный приём мне затруднителен.
+Приложения: копия сообщения отцу от 17.10.2026; сведения о пропусках занятий.
+
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/В_опеку/Запрос_копий_материалов_проверки_опека_Южского_района.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t17">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t17" onclick="event.stopPropagation();toggleDone('1019-t17',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t17" onclick="event.stopPropagation();toggleStar('1019','1019-t17',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Заявление в соцзащиту </div>
+<div class="item-where">ул. Строительная</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> ул. Строительная, 5, 2 экз. — один с «входящим»</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Заявление_в_соцзащиту.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%92_%D1%81%D0%BE%D1%86%D0%B7%D0%B0%D1%89%D0%B8%D1%82%D1%83/%D0%97%D0%B0%D1%8F%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D1%81%D0%BE%D1%86%D0%B7%D0%B0%D1%89%D0%B8%D1%82%D1%83.md">✏ Редактировать</a></div>
+<div class="prev">В Управление социальной защиты населения <mark>[района]</mark> г. Иваново
+От: <mark>[Ф.И.О. матери]</mark>, адрес: <mark>[индекс]</mark> г. Иваново, <mark>ул. Велижская, д. 1, кв. 37</mark>, тел. +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+
+ЗАЯВЛЕНИЕ
+о необходимости социальной помощи семье в связи с нарушением прав несовершеннолетних
+
+Я, <mark>[Ф.И.О. матери]</mark>, являюсь матерью несовершеннолетней дочери (<mark>2015 года рождения</mark>) и младшего сына (<mark>2011 года рождения</mark>). С 2019 года я одна воспитываю и содержу детей; с 2021 года дети проживают со мной в г. Иваново.
+15.10.2026 отец дочери без моего согласия и уведомления забрал её из школы и увёз в д. Снегирево Южского района. Дочь с детства имеет психологические особенности (повышенная тревожность, нервно-психическое напряжение; рекомендовано психиатрическое наблюдение), в связи с чем увоз без учёта состояния здоровья, режима и врачей, пропуски учебных занятий и разлука с семьёй представляют риск для её психического здоровья. Семья переживает острый стресс: я дважды обращалась за медицинской помощью, дети подавлены, младший сын переживает разлуку с сестрой.
+Семья оказалась в трудной жизненной ситуации, требующей социальной помощи и поддержки.
+ПРОШУ:
+1. Зарегистрировать настоящее заявление и рассмотреть вопрос о признании семьи (несовершеннолетних детей и матери) находящейся в трудной жизненной ситуации.
+2. Оказать содействие в защите прав несовершеннолетних, в том числе в возврате дочери по месту её постоянного проживания и обучения (г. Иваново).
+3. Организовать несовершеннолетним и мне психологическую помощь (консультации психолога, реабилитационные мероприятия) по месту жительства.
+4. Направить копию настоящего заявления в комиссию по делам несовершеннолетних и в орган опеки и попечительства.
+Приложения: копия сообщения классного руководителя от 15.10.2026; сведения о пропусках занятий; копия сообщения отцу от 17.10.2026; медицинские документы (по мере получения).
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/В_соцзащиту/Заявление_в_соцзащиту.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t18">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t18" onclick="event.stopPropagation();toggleDone('1019-t18',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t18" onclick="event.stopPropagation();toggleStar('1019','1019-t18',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Заявление в прокуратуру (ст. 45 ГПК + проверка действий школы) </div>
+<div class="item-where">канцелярия прокуратуры</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> канцелярия прокуратуры, 2 экз. — штамп «входящий»</li><li><b>КОММЕНТАРИЙ:</b> + проверка школы (передача отцу — прочерк в документах, ложный «запрос опеки», учебники при известном невыходе 16.10)</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Заявление_в_прокуратуру.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%94%D0%B5%D0%BB%D0%BE%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE/%D0%92_%D0%BF%D1%80%D0%BE%D0%BA%D1%83%D1%80%D0%B0%D1%82%D1%83%D1%80%D1%83/%D0%97%D0%B0%D1%8F%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D0%BF%D1%80%D0%BE%D0%BA%D1%83%D1%80%D0%B0%D1%82%D1%83%D1%80%D1%83.md">✏ Редактировать</a></div>
+<div class="prev">Прокурору <mark>[наименование]</mark> района г. Иваново
+От: <mark>[Ф.И.О. матери]</mark>, адрес: <mark>[индекс]</mark> г. Иваново, ул. Велижская, д. 1, кв. 37, тел. +7 <mark>[__]</mark> <mark>[___]</mark> <mark>[__]</mark> <mark>[__]</mark>
+
+ЗАЯВЛЕНИЕ
+о нарушении прав несовершеннолетнего ребёнка и прав матери, о принятии мер прокурорского реагирования
+
+Я, <mark>[Ф.И.О. матери]</mark>, являюсь матерью несовершеннолетней дочери (<mark>2015 года рождения</mark>) и младшего сына (<mark>2011 года рождения</mark>). Более 8 лет после расторжения брака дети проживают со мной; отец детей не участвует в их воспитании и содержании (алименты — судебный приказ от 28.01.2019), никогда не обращался в суд о месте жительстве детей.
+15.10.2026 отец без моего согласия и уведомления забрал дочь прямо с урока школы № 56 г. Иваново и увёз в д. Снегирево Южского района, сообщив школе недостоверные сведения о действии «по запросу опеки» (орган опеки разрешений не давал). Школа отпустила ребёнка без уведомления законного представителя. У дочери — психологическое расстройство (повышенная тревожность; рекомендовано психиатрическое наблюдение); увоз без учёта состояния здоровья, пропуски занятий (16–17.10.2026) и разлука с семьёй представляют риск для её психического здоровья и нарушают права ребёнка на образование, охрану здоровья и проживание с матерью.
+17.10.2026 я письменно уведомила отца о диагнозе ребёнка и потребовала вернуть дочь домой, установив срок — 18.10.2026. Отец отказался вернуть дочь («Развивать тему смысла нет», «На учёбе будет и уедет со мной обратно, потому что ей так лучше»), пригрозил прекратить общение («Будешь хамить, забаню»).
+Отмечаю: родители имеют равные родительские права, однако отец реализовал их САМОВОЛЬНО, нарушив установленный порядок — место жительства ребёнка при раздельном проживании определяется соглашением родителей или решением суда (п. 3 ст. 65 СК РФ); согласия я не давала, решения суда не имеется. Ребёнок, в силу возраста и психологического состояния, находится под влиянием отца и не понимает последствий (отказ от учёбы, разлука с семьёй); его высказывания о желании остаться не могут служить основанием для нарушения его же прав.
+Дополнительно прошу провести проверку законности действий школы: обучающаяся передана отцу 15.10.2026 без уведомления законного представителя (подписанта договора об образовании — меня), под ложным предлогом действий «по запросу опеки» (какие-либо документы опеки школой не предъявлялись и не оформлялись; опека не вправе изымать или перевозить ребёнка через третьих лиц); классному руководителю заранее было известно о невыходе ребёнка 16.10.2026, дочери выданы учебники. Указанные обстоятельства свидетельствуют о содействии самовольному перемещению ребёнка. Прошу дать оценку действиям должностных лиц школы и принять меры прокурорского реагирования.
+
+ПРОШУ принять меры прокурорского реагирования:
+1. Провести проверку изложенных обстоятельств (действия отца, действия школы по выдаче ребёнка).
+2. Принять меры к защите прав несовершеннолетней: право на образование, охрану здоровья, проживание с матерью.
+3. При необходимости — обеспечить участие прокурора в судебном заседании по делу об определении места жительства несовершеннолетних (ст. 45 ГПК РФ), в том числе в защиту прав несовершеннолетней.
+4. Сообщить мне о результатах рассмотрения.
+Приложения: копия сообщения классного руководителя от 15.10.2026; сведения о пропусках занятий; копия сообщения отцу от 17.10.2026; скриншот ответа отца от 17.10.2026 (отказ вернуть дочь); копия заявления в школу; медицинские документы (по мере получения).
+
+«<mark>[ДД]</mark>» <mark>[месяц]</mark> <mark>[ГГГГ]</mark> г.    _____________ / <mark>[Ф.И.О.]</mark></div>
+<div class="hint" style="padding:6px 12px">файл: Делопроизводство/В_прокуратуру/Заявление_в_прокуратуру.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="sub-title">ПРОЧЕЕ</div>
+<div class="item" id="item-1019-t19">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t19" onclick="event.stopPropagation();toggleDone('1019-t19',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t19" onclick="event.stopPropagation();toggleStar('1019','1019-t19',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Записка в ТВ «Барс» — лично к 9:00 </div>
+<div class="item-where">Велижская</div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КУДА:</b> Велижская, 8 (напротив дома), приёмная 8-4932-41-16-31</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Записка_для_ТВ_Барс.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%A1%D1%82%D1%80%D0%B0%D1%82%D0%B5%D0%B3%D0%B8%D1%8F/%D0%97%D0%B0%D0%BF%D0%B8%D1%81%D0%BA%D0%B0_%D0%B4%D0%BB%D1%8F_%D0%A2%D0%92_%D0%91%D0%B0%D1%80%D1%81.md">✏ Редактировать</a></div>
+<div class="prev"># Записка для журналистов (ТВ «Барс», Иваново)
+
+
+## Кто
+Мать несовершеннолетней дочери (имя не называть — «несовершеннолетняя дочь») и младшего сына, г. Иваново. С 2019 года одна воспитывает детей, 8 лет после развода дети проживают с матерью.
+
+## Что произошло (факты с датами)
+- **15.10.2026** отец без согласия и предупреждения матери забрал дочь прямо с урока (школа № 56) и увёз в д. Снегирево Южского района (более 100 км). Школе сказал, что действует «по запросу опеки» — опека НИКАКИХ разрешений не давала.
+- Школа отпустила ребёнка с урока и не уведомила законного представителя. Единственный, кто заключал договор с школой об обучении — мать; отец никогда не приводил ребёнка в школу.
+- У ребёнка — особенности здоровья (подробности не раскрываем), необходимы наблюдение врача, режим и занятия. Пропущены учебные занятия 16–17.10.2026.
+- **17.10.2026** мать письменно предупредила отца о состоянии ребёнка и потребовала вернуть домой, установив срок — 18.10.2026.
+- Отец длительное время (около 8 месяцев) отсутствовал в жизни семьи; алименты платил, дети 8 лет живут с матерью; ни разу не обращался в суд о месте жительства ребёнка.
+- Мать обращалась в полицию, заявления поданы/подаются: КДН, орган опеки, департамент образования, суд (иск + обеспечение — возврат ребёнка).
+
+## Что просим
+1. Огласку ситуации (увоз ребёнка + бездействие школы);
+2. Содействие: письмо/обращение журналистов в школу, департамент образования, КДН;
+3. **Бесплатную юридическую консультацию/поддержку** — платного юриста оплатить не могу.
+
+## Чего НЕ говорить и НЕ показывать
+- Имя и фамилию ребёнка, фото/видео ребёнка (по возможности);
+- Подробный диагноз (достаточно «особенности здоровья, рекомендовано наблюдение»);
+- Номер дела, фамилию судьи, содержание судебных документов;
+- Оценочные характеристики отца (только проверяемые факты).
+
+## Приложить (копии, без данных ребёнка)
+- Сообщение классного руководителя от 15.10.2026 (отредактировать имя);
+- Сведения о пропусках занятий (табель, «Н»);
+- Заявление в школу (копия);
+- Сообщение отцу от 17.10.2026 (требование вернуть, срок).</div>
+<div class="hint" style="padding:6px 12px">файл: Стратегия/Записка_для_ТВ_Барс.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item" id="item-1019-t20">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t20" onclick="event.stopPropagation();toggleDone('1019-t20',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t20" onclick="event.stopPropagation();toggleStar('1019','1019-t20',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Запрос в ОКБ — записи невролога (~2020: кровоподтёк в глазу, консультации, рекомендация МРТ) </div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КОММЕНТАРИЙ:</b> сходить/направить письменный запрос; записи — доказательство, что повод к обследованию был с 5 лет; при работе над истребованием — дописать ОКБ</li></ul>
+</div></div>
+<div class="item event" id="item-1019-t21">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t21" onclick="event.stopPropagation();toggleDone('1019-t21',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t21" onclick="event.stopPropagation();toggleStar('1019','1019-t21',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge amber">СОБЫТИЕ</span>
+<div class="item-title">ПРИЁМ У ПСИХОЛОГА (дочь, если дома) (СОБЫТИЕ) — по записи </div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КОММЕНТАРИЙ:</b> запись — сразу, через бабушку; цель — работа с дочерью и заключение («две среды», нахождение с матерью, увоз не рекомендован).</li></ul>
+<div class="prev-wrap">
+<div class="prev-hd"><span class="name">Заключение_психолога_вопросы.md</span>
+<a class="btn grey" style="padding:5px 12px;font-size:12px" href="../%D0%A1%D1%82%D1%80%D0%B0%D1%82%D0%B5%D0%B3%D0%B8%D1%8F/%D0%97%D0%B0%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B0_%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B.md">✏ Редактировать</a></div>
+<div class="prev"># Задание для психолога — заключение по дочери
+
+
+## Что передать психологу
+- Диагноз/заключения врачей (тревожность, нервно-психическое напряжение; рекомендации невропатолога, психолога).
+- Краткое описание ситуации (увоз 15.10, разлука, «качели» отца) — фактологично, без эмоций.
+- Сведения о прошлых фактах самоповреждений (если подтвердятся) — обязательно!
+
+## Вопросы для заключения
+1. Каковы психологические особенности ребёнка (тревожность, эмоциональная неустойчивость, особенности восприятия) и как они влияют на поведение, общение и высказывания?
+2. Является ли обвинение матери («мама виновата», «из-за мамы») в ответах на вопросы авторитетных взрослых (отца, учителей) проявлением **защитно-приспособительной реакции** — стремления заслужить расположение, избежать давления/допроса, сохранить принятие, — а не свободным и достоверным описанием фактов?
+3. Имеется ли у ребёнка **различие поведения в разных средах**: дома и среди близких (естественное поведение, без обвинений в адрес матери) против поведения в школе и у отца («образ для принятия», обвинения матери)? Что это говорит о характере её высказываний?
+4. Как влияют на состояние и высказывания ребёнка: разлука с матерью, смена обстановки, эмоциональные манипуляции (обещания — исчезновения — новые обещания), расспросы/давление со стороны взрослых?
+5. Влияет ли имеющееся состояние (в том числе в прошлом — факты самоповреждений) на способность ребёнка последовательно, достоверно и осознанно излагать факты и понимать значение своих слов?
+6. В каких условиях общение/опрос ребёнка соответствует его интересам (без присутствия и давления родителей, с участием психолога, в спокойной обстановке)?
+7. Каковы рекомендации: наблюдение, лечение, режим, организация общения (если допустимо) с отцом?
+
+## Как использовать
+- К иску/к делу — как письменное доказательство (заключение специалиста).
+- К ходатайству об экспертизе — как обоснование необходимости («частный психолог подтверждает: нужна судебная экспертиза»).
+- Омбудсмену и в опеку — копия.
+- **Судебный ключ:** даже если дочь в суде/у отца скажет «мама виновата» — заключение объясняет суду механизм; главное слово — «под давлением», НИКОГДА не «ложь».
+
+---
+## СРОЧНЫЙ ВАРИАНТ — понедельник 19.10 (если дочь вернулась воскресеньем)
+Контакты: через бабушку (мама — заведующая детским садом, всю жизнь в дошкольном образовании — есть знакомые психологи). Записаться СРАЗУ в воскресенье вечером на понедельник.
+ЦЕЛЬ-ФОРМУЛИРОВКИ ДЛЯ ЗАКЛЮЧЕНИЯ (сформулировать как рекомендации специалиста, НЕ как заказ):
+- ребёнок нуждается в нахождении с матерью (привязанность, привычная среда, семья);
+- смена привычной среды / разлука с матерью / увоз — НЕ РЕКОМЕНДУЮТСЯ (ухудшение состояния);
+- резкая перемена обстановки 15.10 нанесла психотравму; необходим стабильный привычный уклад;
+- формулировка «две среды»: высказывания ребёнка под давлением одной из сред не отражают действительную волю.
+ПРИНЦИПЫ: психолог работает с ребёнком профессионально (диагностика, беседа, методики); ребёнка НЕ тренировать и НЕ настраивать — иначе заключение уязвимо; частное заключение — в суд как письменное доказательство (ст. 55, 67 ГПК) + параллельно ходатайство о судебной экспертизе (СЭПЭ) — суд может не принять частное как главное.
+ДОПОЛНИТЬ ВОПРОСЫ: реакция на перемещение 15.10; соматические/самоповреждения; влияние конфликта родителей; соответствует ли «желание остаться с отцом» действительной привязанности (конформизм, лояльность, страх).</div>
+<div class="hint" style="padding:6px 12px">файл: Стратегия/Заключение_психолога_вопросы.md — правки в .md; «обнови календарь» пересоберёт превью</div>
+</div>
+</div></div>
+<div class="item question" id="item-1019-t22">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1019-t22" onclick="event.stopPropagation();toggleDone('1019-t22',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1019-t22" onclick="event.stopPropagation();toggleStar('1019','1019-t22',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge grey">задача</span>
+<div class="item-title">Заявление в полицию — ПОД ВОПРОСОМ <span class="badge amber">под вопросом</span></div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КОММЕНТАРИЙ:</b> только если появятся доп. доказательства/поддержка (определение суда, заключение опеки, омбудсмен). ТОЛЬКО фиксация невозврата, не «забрать ребёнка». Полиция уже отказывала: «ребёнок хочет там жить», «отец напишет в прокуратуру».</li></ul>
+</div></div>
+</div>
+<div class="daypanel" id="panel-1020">
+<button class="chip showdone" style="display:none" onclick="toggleShowDone('panel-1020')"></button>
+<div class="day-title"><span class="dt">Вт, 20.10</span><span></span></div>
+<div class="item event" id="item-1020-t1">
+<div class="item-hd" onclick="if(!event.target.closest('.chip'))this.parentNode.classList.toggle('open')">
+<span class="chip done" id="done-1020-t1" onclick="event.stopPropagation();toggleDone('1020-t1',this)" title="домашка готова">✓ готово</span>
+<span class="chip star" id="star-1020-t1" onclick="event.stopPropagation();toggleStar('1020','1020-t1',this)" title="главное событие дня"><span class="s">★</span></span>
+<span class="badge amber">СОБЫТИЕ</span>
+<div class="item-title">⚖ СУДЕБНОЕ ЗАСЕДАНИЕ (СОБЫТИЕ) — Фрунзенский районный суд г. Иваново </div>
+<span class="chev">▼</span></div><div class="item-body">
+<ul class="bullets"><li><b>КОММЕНТАРИЙ:</b> стратегия — ОТЛОЖИТЬ (ходатайство + справка поданы 19.10; присутствие не требуется). При отказе — заявить отложение в заседании. Дело по существу без вас не рассматривают (ст. 167, 169, 330 ГПК).</li></ul>
+</div></div>
+</div>
+<div class="daypanel" id="panel-empty"><div class="day-title"><span class="dt" id="empty-date"></span><span>Событий нет</span></div></div>
+</div>
+<script>
+function $(id){ return document.getElementById(id); }
+function lsGet(k, d){ try { var v = JSON.parse(localStorage.getItem(k)); return v === null ? d : v; } catch(e){ return d; } }
+function lsSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+
+function openDay(key){
+  document.querySelectorAll('.daypanel').forEach(function(p){ p.classList.remove('open'); });
+  document.querySelectorAll('.cell').forEach(function(c){ c.classList.remove('sel'); });
+  var panel = $('panel-' + key);
+  if (panel) { panel.classList.add('open'); }
+  else {
+    $('panel-empty').classList.add('open');
+    var n = key.slice(2), t = $('empty-date'); if (t) t.textContent = n + '.10.2026';
+  }
+  var cell = $('cell-' + key); if (cell) cell.classList.add('sel');
+  lsSet('cal_last_day', key);
+  if (panel) panel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function toggleDone(tid, el){
+  el.classList.toggle('on');
+  var on = el.classList.contains('on');
+  lsSet('done_' + tid, on);
+  var item = $('item-' + tid);
+  if (item) {
+    var panel = item.closest('.daypanel');
+    var show = panel && panel.classList.contains('show-completed');
+    if (on && !show) item.classList.add('done-hidden');
+    else item.classList.remove('done-hidden');
+  }
+  refreshShowBtns();
+}
+function refreshShowBtns(){
+  document.querySelectorAll('.daypanel').forEach(function(panel){
+    var hidden = panel.querySelectorAll('.item.done-hidden').length;
+    var btn = panel.querySelector('.showdone');
+    if (!btn) return;
+    if (hidden > 0) { btn.style.display = 'inline-flex'; btn.textContent = '☑ показать выполненные (' + hidden + ')'; }
+    else btn.style.display = 'none';
+  });
+}
+function toggleShowDone(panelId){
+  var panel = $(panelId);
+  panel.classList.toggle('show-completed');
+  if (panel.classList.contains('show-completed')) {
+    panel.querySelectorAll('.item.done-hidden').forEach(function(i){ i.classList.remove('done-hidden'); });
+  } else {
+    panel.querySelectorAll('.item').forEach(function(i){
+      var chip = i.querySelector('.chip.done');
+      if (chip && chip.classList.contains('on')) i.classList.add('done-hidden');
+    });
+  }
+  refreshShowBtns();
+}
+
+function toggleStar(dayKey, tid, el){
+  var titles = lsGet('cal_stars', {});
+  var wasOn = el.classList.contains('on');
+  document.querySelectorAll('.item .chip.star').forEach(function(s){
+    if (s.closest('.daypanel') === $('panel-' + dayKey) || s.closest('.daypanel') === null) {
+      if (s.id.indexOf('star-' + dayKey + '-') === 0) s.classList.remove('on');
+    }
+  });
+  if (!wasOn) {
+    el.classList.add('on');
+    var item = $('item-' + tid);
+    var t = item ? item.querySelector('.item-title').textContent.trim() : '';
+    titles[dayKey] = { id: tid, title: t.slice(0, 46) };
+  } else {
+    delete titles[dayKey];
+  }
+  lsSet('cal_stars', titles);
+  refreshCell(dayKey);
+}
+
+function refreshCell(dayKey){
+  var titles = lsGet('cal_stars', {});
+  var box = $('star-' + dayKey);
+  if (!box) return;
+  if (titles[dayKey]) box.innerHTML = '<b>★</b> ' + titles[dayKey].title;
+  else box.innerHTML = '';
+}
+
+function init(){
+  document.querySelectorAll('[id^="done-"]').forEach(function(el){
+    var tid = el.id.slice(5);
+    if (lsGet('done_' + tid, false)) {
+      el.classList.add('on');
+      var it = $('item-' + tid);
+      if (it) it.classList.add('done-hidden');
+    }
+  });
+  refreshShowBtns();
+  var titles = lsGet('cal_stars', {});
+  Object.keys(titles).forEach(function(dayKey){
+    var st = $('star-' + titles[dayKey].id);
+    if (st) st.classList.add('on');
+    refreshCell(dayKey);
+  });
+  var last = lsGet('cal_last_day', '1017');
+  openDay($('panel-' + last) || $('cell-' + last) ? last : '1017');
+}
+init();
+</script>
+</body></html>
